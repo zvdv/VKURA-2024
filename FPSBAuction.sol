@@ -14,7 +14,7 @@ contract Auction {
     mapping(address=>Bidder) public bids;
     address[] public bidders;
     uint public auctioneerPaid; // How much money the auctioneer has deposited in the contract
-    enum State {Init, Bidding, Revealing, Challenge, Verify, ValidWin}
+    enum State {Init, Challenge, Verify, ValidWin}
     State state;
 
     // Auction Parameters
@@ -25,24 +25,29 @@ contract Auction {
     uint public revealPeriodEnd; // Number of blocks
     uint public maxBidders;
 
-    constructor(string memory _auctioneerPublicKey, uint _fairFee, uint _bidPeriodEnd, uint _revealPeriodEnd, uint _maxBidders) payable {
+    constructor(string memory _auctioneerPublicKey, uint _fairFee, uint bidPeriod, uint revealPeriod, uint _maxBidders) payable {
         require(msg.value >= _fairFee);
         auctioneerPaid = msg.value;
         auctioneerAddress = msg.sender;
         auctioneerPublicKey = _auctioneerPublicKey;
-        bidPeriodEnd = block.number + _bidPeriodEnd;
-        revealPeriodEnd = bidPeriodEnd + _revealPeriodEnd;
+        bidPeriodEnd = block.number + bidPeriod;
+        revealPeriodEnd = bidPeriodEnd + revealPeriod;
         maxBidders = _maxBidders;
-        state = State.Bidding;
     }
 
-    function bid(uint commit) public payable {
+    function bid(uint _commit) public payable {
         require(msg.value >= fairFee);
         require(block.number < bidPeriodEnd);
         require(bidders.length < maxBidders);
         require(bids[msg.sender].exists == false); // Has not bid yet
         bids[msg.sender].exists = true;
-        bids[msg.sender].commit = commit;
+        bids[msg.sender].commit = _commit;
         bidders.push(msg.sender);
+    }
+
+    function reveal(bytes memory _reveal) public {
+        require(block.number < revealPeriodEnd && block.number > bidPeriodEnd);
+        require(bids[msg.sender].exists == true);
+        bids[msg.sender].reveal = _reveal; // Bidders encrypt their bid with the auctioneer's public key
     }
 }
