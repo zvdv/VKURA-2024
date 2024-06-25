@@ -24,6 +24,11 @@ contract Auction {
     uint public bidPeriodEnd; // Number of blocks
     uint public revealPeriodEnd; // Number of blocks
     uint public maxBidders;
+    uint public maxBid;
+
+    // Set when auctioneer chooses winner
+    address public winner;
+    uint public winningBid;
 
     constructor(string memory _auctioneerPublicKey, uint _fairFee, uint bidPeriod, uint revealPeriod, uint _maxBidders) payable {
         require(msg.value >= _fairFee);
