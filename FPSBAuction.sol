@@ -31,7 +31,7 @@ contract Auction {
     uint public winningBid;
 
     constructor(string memory _auctioneerPublicKey, uint _fairFee, uint bidPeriod, uint revealPeriod, uint _maxBidders) payable {
-        require(msg.value >= _fairFee);
+        require(msg.value >= _fairFee, "Insufficient deposit.");
         auctioneerPaid = msg.value;
         auctioneerAddress = msg.sender;
         auctioneerPublicKey = _auctioneerPublicKey;
@@ -41,18 +41,18 @@ contract Auction {
     }
 
     function bid(uint _commit) public payable {
-        require(msg.value >= fairFee);
-        require(block.number < bidPeriodEnd);
-        require(bidders.length < maxBidders);
-        require(bids[msg.sender].exists == false); // Has not bid yet
+        require(msg.value >= fairFee, "Insufficient deposit.");
+        require(block.number < bidPeriodEnd, "Outside bidding period.");
+        require(bidders.length < maxBidders, "Too many bidders.");
+        require(bids[msg.sender].exists == false, "Bidder has already bid.");
         bids[msg.sender].exists = true;
         bids[msg.sender].commit = _commit;
         bidders.push(msg.sender);
     }
 
     function reveal(bytes memory _reveal) public {
-        require(block.number < revealPeriodEnd && block.number > bidPeriodEnd);
-        require(bids[msg.sender].exists == true);
+        require(block.number < revealPeriodEnd && block.number > bidPeriodEnd, "Outside revealing period.");
+        require(bids[msg.sender].exists == true, "Bidder does not exist.");
         bids[msg.sender].reveal = _reveal; // Bidders encrypt their bid with the auctioneer's public key
     }
 }
