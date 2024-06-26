@@ -31,24 +31,21 @@ contract EnglishAuction {
     function bid(bytes32 hash) public payable {
         // Allows new bids to overide previous bids
 
-        require(block.timestamp < endOfBidding);
+        require(block.timestamp < endOfBidding, "Outside bidding interval.");
 
         hashedBidOf[msg.sender] = hash;
         balanceOf[msg.sender] += msg.value;
-        require(balanceOf[msg.sender] >= reservePrice);
+        require(balanceOf[msg.sender] >= reservePrice, "Deposit below minimum bid.");
     }
 
     address public highBidder = msg.sender;
     uint256 public highBid;
 
     function reveal(uint256 amount, uint256 nonce) public {
-        require(block.timestamp >= endOfBidding && block.timestamp < endOfRevealing);
-
-        require(keccak256(abi.encode(amount, nonce)) == hashedBidOf[msg.sender]);
-        // is the abi.encode() doing what it's supposed to?
-
-        require(amount >= reservePrice);
-        require(amount <= balanceOf[msg.sender]);
+        require(block.timestamp >= endOfBidding && block.timestamp < endOfRevealing, "Outside revealing interval.");
+        require(keccak256(abi.encode(amount, nonce)) == hashedBidOf[msg.sender], "Invalid open of commitment.");
+        require(amount >= reservePrice, "Bid is too low.");
+        require(amount <= balanceOf[msg.sender], "Insufficient funds.");
 
         if (amount > highBid) {
             // return escrowed bid to previous high bidder
@@ -65,7 +62,7 @@ contract EnglishAuction {
     }
 
     function withdraw() public {
-        require(block.timestamp >= endOfRevealing);
+        require(block.timestamp >= endOfRevealing, "Outside of withdrawing interval.");
 
         uint256 amount = balanceOf[msg.sender];
         balanceOf[msg.sender] = 0;
@@ -73,7 +70,7 @@ contract EnglishAuction {
     }
 
     function claim() public {
-        require(block.timestamp >= endOfRevealing);
+        require(block.timestamp >= endOfRevealing, "Outside of claiming interval.");
 
         uint256 t = token.balanceOf(address(this));
         // is address(this) what it should be?

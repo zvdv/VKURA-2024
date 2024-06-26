@@ -75,7 +75,7 @@ contract Auction {
         require(state == State.Init, "Invalid state.");
         require(bids[_winner].commit.length != 0, "Bidder does not exist.");
         require(_winBid < maxBid, "Invalid bid.");
-        require(pedersenVerify(_winBid, _winRand, bids[_winner].commit));
+        require(pedersenVerify(_winBid, _winRand, bids[_winner].commit), "Invalid open of commitment.");
         winner = _winner;
         winningBid = _winBid;
         state = State.Challenge;
