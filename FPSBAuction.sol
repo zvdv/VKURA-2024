@@ -16,7 +16,7 @@ contract Auction {
     mapping(address=>Bidder) public bids;
     address[] public bidders;
     uint public auctioneerPaid; // How much money the auctioneer has deposited in the contract
-    enum State {Init, Challenge, Verify, ValidWin}
+    enum State {Init, Challenge, Verify, ValidWin, AllBiddersWithdraw}
     State state;
 
     bytes public G = hex"2bd3e6d0f3b142924f5ca7b49ce5b9d54c4703d7ae5648e61d02268b1a0a9fb721611ce0a6af85915e2f1d70300909ce2e49dfad4a4619c8390cae66cefdb204";
@@ -38,6 +38,8 @@ contract Auction {
     address public winner;
     uint public winningBid;
 
+    bool internal enterLock; // To guard against reentrancy attacks
+
     constructor(string memory _auctioneerPublicKey, uint _fairFee, uint bidPeriod, uint revealPeriod, uint winnerPayPeriod, uint _maxBidders) payable {
         require(msg.value >= _fairFee, "Insufficient deposit.");
         auctioneerPaid = msg.value;
@@ -56,6 +58,7 @@ contract Auction {
         require(bids[msg.sender].commit.length == 0, "Bidder has already bid.");
         //bids[msg.sender].exists = true;
         bids[msg.sender].commit = _commit;
+        bids[msg.sender].paid = msg.value;
         bidders.push(msg.sender);
     }
 
@@ -81,6 +84,22 @@ contract Auction {
         state = State.Challenge;
     }
 
+    // End auction in the case of a dishonest auctioneer (called by contract if it checks something that proves this)
+    function dishonestAuctioneer() private {
+        state = State.AllBiddersWithdraw;
+    }
+
+    function withdraw(address bidder) public {
+        require(enterLock == false, "Reentrancy attempt.");
+        if (state != State.AllBiddersWithdraw){
+            require(bidder != winner, "Winner cannot withdraw.");
+        }
+        enterLock = true;
+        payable(bidder).transfer(bids[bidder].paid);
+        bids[bidder].paid = 0;
+        enterLock = false;
+    }
+
     // Pedersen commitments
      function pedersenCommit(uint x, uint r) public returns (bytes memory) {
         return ecAdd(ecMul(G, x), ecMul(H, r));
@@ -91,7 +110,7 @@ contract Auction {
 
     // Difference commitments
     function createCommitsDifferences() private {
-        for (uint i = 0; i<bidders.length; i++) {
+        for (uint i = 0; i < bidders.length; i++) {
             if (bidders[i] != winner) {
                 bids[bidders[i]].difference = commitDifference(bids[winner].commit, bids[bidders[i]].commit);
             }
