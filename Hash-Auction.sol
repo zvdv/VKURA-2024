@@ -75,7 +75,8 @@ contract Auction {
     }
 
     function withdraw() public {
-
+        require(block.number > claimWinnerEnd, "Too early to withdraw.");
+        //make sure no reentrancy
     }
 
     modifier OnlyAuctioneer(){
