@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
 
-pragma solidity ^0.8.26;
+pragma solidity ^0.8.25;
 
 contract Auction {
     //bool public open;
+    bool public testing;
 
     struct Bidder {
         //bool exists;
@@ -32,7 +33,7 @@ contract Auction {
     address public winner;
     uint public winningBid;
 
-    constructor(uint _fairFee, uint bidPeriod, uint revealPeriod, uint claimWinnerPeriod, uint withdrawPeriod) payable {
+    constructor(uint _fairFee, uint bidPeriod, uint revealPeriod, uint claimWinnerPeriod, uint withdrawPeriod, bool _testing) payable {
         require(msg.value >= _fairFee, "Insufficient deposit.");
         auctioneerPaid = msg.value;
         auctioneerAddress = msg.sender;
@@ -42,11 +43,13 @@ contract Auction {
         claimWinnerEnd = revealPeriodEnd + claimWinnerPeriod;
         withdrawEnd = claimWinnerEnd + withdrawPeriod;
         //maxBidders = _maxBidders;
+        testing = _testing;
     }
 
     function bid(bytes32 _commit) public payable {
         require(msg.value >= fairFee, "Insufficient deposit.");
-        require(block.number < bidPeriodEnd, "Outside bidding period.");
+        require(block.number < bidPeriodEnd || testing, "Outside bidding period.");
+        // Require not the auctioneer
         //require(bidders.length < maxBidders, "Too many bidders.");
         require(bids[msg.sender].commit.length == 0, "Bidder has already bid.");
         bids[msg.sender].commit = _commit;
@@ -55,7 +58,7 @@ contract Auction {
     }
 
     function reveal(uint _bid, uint _nonce) public {
-        require(block.number < revealPeriodEnd && block.number > bidPeriodEnd, "Outside revealing period.");
+        require(block.number < revealPeriodEnd && block.number > bidPeriodEnd || testing, "Outside revealing period.");
         require(bids[msg.sender].commit.length != 0, "Bidder does not exist.");
         require(_bid <= bids[msg.sender].paid, "Bid is higher than bidder's deposit.");
         if (keccak256(abi.encode(_bid, _nonce)) == bids[msg.sender].commit){
@@ -68,7 +71,7 @@ contract Auction {
     }
 
     function claimWinner() public OnlyAuctioneer {
-        require(block.number > revealPeriodEnd && block.number < claimWinnerEnd, "Outside claim winner period.");
+        require(block.number > revealPeriodEnd && block.number < claimWinnerEnd || testing, "Outside claim winner period.");
         for (uint i = 0; i < bidders.length; i++){
             if (bids[bidders[i]].bid > winningBid){
                 winner = bidders[i];
@@ -79,14 +82,14 @@ contract Auction {
     }
 
     function withdraw() public {
-        require(block.number > claimWinnerEnd && block.number < withdrawEnd, "Outside withdrawal period.");
+        require(block.number > claimWinnerEnd && block.number < withdrawEnd || testing, "Outside withdrawal period.");
         uint amount = bids[msg.sender].paid;
         bids[msg.sender].paid = 0;
         payable(msg.sender).transfer(amount);
     }
 
     function endAuction() public OnlyAuctioneer {
-        require(block.number > withdrawEnd, "Too early to close auction.");
+        require(block.number > withdrawEnd || testing, "Too early to close auction.");
         uint amount = auctioneerPaid;
         auctioneerPaid = 0;
         payable(auctioneerAddress).transfer(amount);
