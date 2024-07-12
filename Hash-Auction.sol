@@ -3,7 +3,7 @@
 pragma solidity ^0.8.26;
 
 contract Auction {
-    bool public open;
+    //bool public open;
 
     struct Bidder {
         //bool exists;
@@ -90,7 +90,7 @@ contract Auction {
         uint amount = auctioneerPaid;
         auctioneerPaid = 0;
         payable(auctioneerAddress).transfer(amount);
-        open = true;
+        //open = true;
         // Clear all variables
     }
 
