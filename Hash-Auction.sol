@@ -76,7 +76,9 @@ contract Auction {
 
     function withdraw() public {
         require(block.number > claimWinnerEnd, "Too early to withdraw.");
-        //make sure no reentrancy
+        uint amount = bids[msg.sender].paid;
+        bids[msg.sender].paid = 0;
+        payable(msg.sender).transfer(amount);
     }
 
     modifier OnlyAuctioneer(){
