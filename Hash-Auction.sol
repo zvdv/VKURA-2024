@@ -98,6 +98,8 @@ contract Auction {
     // Require open == true
     // Set 'open' bool back to false
 
+    // Alternatively, add function on frontend to deploy a new copy of the auction contract (better I think)
+
     modifier OnlyAuctioneer(){
         require(msg.sender == auctioneerAddress, "Only auctioneer can call.");
         _;
