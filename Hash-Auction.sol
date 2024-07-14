@@ -8,7 +8,7 @@ contract Auction {
 
     struct Bidder {
         //bool exists;
-        bool paidBack;
+        //bool paidBack;
         bytes32 commit; // Hash of bid and random nonce
         uint bid; // Revealed bid
         uint nonce; // Revealed nonce
@@ -49,9 +49,9 @@ contract Auction {
     function bid(bytes32 _commit) public payable {
         require(msg.value >= fairFee, "Insufficient deposit.");
         require(block.number < bidPeriodEnd || testing, "Outside bidding period.");
-        // Require not the auctioneer
+        require(msg.sender != auctioneerAddress, "Auctioneer cannot bid.");
         //require(bidders.length < maxBidders, "Too many bidders.");
-        require(bids[msg.sender].commit.length == 0, "Bidder has already bid.");
+        require(bids[msg.sender].commit == "", "Bidder has already bid.");
         bids[msg.sender].commit = _commit;
         bids[msg.sender].paid = msg.value;
         bidders.push(msg.sender);
@@ -67,12 +67,16 @@ contract Auction {
             bids[msg.sender].nonce = _nonce;
         } else {
             bids[msg.sender].validCommit = false;
+            revert("Invalid open of commitment.");
         }
     }
 
     function claimWinner() public OnlyAuctioneer {
         require(block.number > revealPeriodEnd && block.number < claimWinnerEnd || testing, "Outside claim winner period.");
         for (uint i = 0; i < bidders.length; i++){
+            if (bids[bidders[i]].validCommit == false){
+                continue;
+            }
             if (bids[bidders[i]].bid > winningBid){
                 winner = bidders[i];
                 winningBid = bids[bidders[i]].bid;
