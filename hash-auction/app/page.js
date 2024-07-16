@@ -1,7 +1,8 @@
 import React from 'react';
 import Web3 from 'web3';
 import AuctionMetaData from '../../artifacts/Auction_metadata.json';
-import Hasher from './client.js';
+import Hasher from './encode';
+import Deployer from './deploy';
 
 const AuctionContractABI = AuctionMetaData.output.abi;
 const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
@@ -13,6 +14,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <Hasher />
+      <Deployer />
     </main>
   );
 }

@@ -1,8 +1,14 @@
-'use client'
+// 'use client'
  
-import React from 'react';
-import dynamic from 'next/dynamic';
+// import React from 'react';
+// import dynamic from 'next/dynamic';
  
-const Hasher = dynamic(() => import('./encode.js'), { ssr: false });
- 
-export default () => <Hasher />
+// const HasherC = dynamic(() => import('./encode.js'), { ssr: false });
+// export function Hasher(){
+//     return <HasherC />;
+// }
+
+// const DeployerC = dynamic(() => import('./deploy.js'), { ssr: false });
+// export function Deployer(){
+//     return <DeployerC />;
+// }
