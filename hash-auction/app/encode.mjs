@@ -21,13 +21,16 @@ function hash(bid){
 }
 
 export default function Hasher() {
-    let result;
     return (
         <div>
+        <form action={document.getElementById("hash").innerHTML = hash(document.getElementById("bid").value)}>
             <label for="bid">Enter bid:</label>
-            <input type="number" id="bid" name="bid"></input>
-            <button onClick={result = hash(document.getElementById("bid").value)}>Hash bid with nonce</button>
-            <p>Hashed value: {result}</p>
+            <input type="number" id="bid" name="bid" value={1}/>
+            <input type="submit"/>
+        </form>
+        <p id="hash">Hashed value: </p>
         </div>
     )
   }
+
+  // <button onClick={result = hash(document.getElementById("bid").value)}>Hash bid with nonce</button>
