@@ -1,7 +1,7 @@
 import React from 'react';
 import Web3 from 'web3';
 import AuctionMetaData from '../../artifacts/Auction_metadata.json';
-import Hasher from './encode.mjs';
+import Hasher from './client.js';
 
 const AuctionContractABI = AuctionMetaData.output.abi;
 const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));

@@ -20,13 +20,17 @@ function hash(bid){
     return hashed;
 }
 
+function output(){
+    document.getElementById("hash").innerHTML = hash(document.getElementById("bid").value)
+}
+
 export default function Hasher() {
     return (
         <div>
-        <form action={document.getElementById("hash").innerHTML = hash(document.getElementById("bid").value)}>
-            <label for="bid">Enter bid:</label>
-            <input type="number" id="bid" name="bid" value={1}/>
-            <input type="submit"/>
+        <form action={output}>
+            <label for='bid'>Enter bid:</label>
+            <input type='number' id='bid' name='bid' style={{color:'black'}}/>
+            <input type='submit' className=''/>
         </form>
         <p id="hash">Hashed value: </p>
         </div>
