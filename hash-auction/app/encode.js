@@ -29,7 +29,7 @@ export default function Hasher() {
         <div className='outline outline-white'>
         <form action={output}>
             <label for='bid'>Enter bid:</label>
-            <input type='number' id='bid' name='bid' className='rounded' style={{color:'black'}}/>
+            <input type='number' id='bid' name='bid' className='rounded text-black' />
             <input type='submit' />
         </form>
         <p id="hash">Hashed value: </p>
@@ -37,5 +37,4 @@ export default function Hasher() {
     )
 }
 
-// Tailwind styling doesn't work?
 // <button onClick={result = hash(document.getElementById("bid").value)}>Hash bid with nonce</button>
