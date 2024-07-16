@@ -26,15 +26,16 @@ function output(){
 
 export default function Hasher() {
     return (
-        <div>
+        <div className='outline outline-white'>
         <form action={output}>
             <label for='bid'>Enter bid:</label>
-            <input type='number' id='bid' name='bid' style={{color:'black'}}/>
-            <input type='submit' className=''/>
+            <input type='number' id='bid' name='bid' className='rounded' style={{color:'black'}}/>
+            <input type='submit' />
         </form>
         <p id="hash">Hashed value: </p>
         </div>
     )
-  }
+}
 
-  // <button onClick={result = hash(document.getElementById("bid").value)}>Hash bid with nonce</button>
+// Tailwind styling doesn't work?
+// <button onClick={result = hash(document.getElementById("bid").value)}>Hash bid with nonce</button>
