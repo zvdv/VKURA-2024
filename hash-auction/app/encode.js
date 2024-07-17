@@ -31,7 +31,7 @@ export default function Hasher() {
         <div className='outline outline-white'>
         <form action={output}>
             <label for='bid'>Enter bid:</label>
-            <input type='number' id='bid' name='bid' className='rounded text-black' />
+            <input type='number' id='bid' name='bid' />
             <input type='submit' />
         </form>
         <p id="hash">Hashed value: </p>

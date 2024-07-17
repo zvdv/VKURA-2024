@@ -1,23 +1,27 @@
+'use client'
+import { useRouter } from 'next/navigation';
 import React from 'react';
-import Web3 from 'web3';
-import AuctionMetaData from '../../artifacts/Auction_metadata.json';
-import Hasher from './encode';
-import Deployer from './deploy';
+import { isAddress } from 'web3-validator';
 
-const AuctionContractABI = AuctionMetaData.output.abi;
-const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
+export default function Login() {
+    const router = useRouter();
 
-const contractAddress = '0x90c5b9D0936fa081e05e7699EECa9585f5Ea3192';
-const contract = new web3.eth.Contract(AuctionContractABI, contractAddress);
+    function validateAddress(){
+        if (isAddress(document.getElementById('address').value)){
+            router.push('/dashboard')
+        } else {
+            alert("Please enter a valid Ethereum address.")
+        }
+    }
 
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Hasher />
-      <Deployer />
-    </main>
-  );
-}
-
-// not finished at all :)
-// <button onClick={contract.methods.bid(0xf33caff651ce9bbcdf2dc43ea34a6e9bed305342fa9625856053f0e5cfcccd3c).call()}>Bid 240 wei with 323 nonce</button>
+    return (
+      <main className=''>
+        <form action={validateAddress}>
+            <label for='address'>Ethereum address: </label>
+            <input type='text' id='address' name='address' />
+            <br />
+            <input type='submit' value='Login' className='cursor-pointer'/>
+        </form>
+      </main>
+    );
+  }
