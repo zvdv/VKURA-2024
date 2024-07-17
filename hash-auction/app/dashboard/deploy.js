@@ -4,6 +4,7 @@ import React from 'react';
 import Web3 from 'web3';
 import AuctionMetaData from '../../../artifacts/Auction_metadata.json';
 import AuctionByteCode from '../../../artifacts/Auction_bytecode.txt';
+import { userAddress } from '../login';
 
 const AuctionContractABI = AuctionMetaData.output.abi;
 const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
@@ -26,6 +27,7 @@ function deployContract(){
         testing = radio[1].value;
     }
     //document.getElementById('radio').innerHTML = testing;
+    let auctioneerAddress = userAddress;
 
     contract.deploy({arguments: [fairFee, bidPeriod, revealPeriod, claimWinnerPeriod, withdrawPeriod, testing]})
     .send({
