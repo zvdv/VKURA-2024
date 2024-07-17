@@ -3,7 +3,7 @@
 import React from 'react';
 import Web3 from 'web3';
 import AuctionMetaData from '../../../artifacts/Auction_metadata.json';
-import AuctionByteCode from '../../../artifacts/Auction_bytecode.txt';
+import AuctionByteCode from '../../../artifacts/Auction_bytecode.json';
 import { userAddress } from '../login';
 
 const AuctionContractABI = AuctionMetaData.output.abi;
@@ -11,7 +11,7 @@ const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('htt
 
 const contract = new web3.eth.Contract(AuctionContractABI);
 contract.defaultChain = "sepolia";
-contract.options.data = AuctionByteCode;
+contract.options.data = AuctionByteCode.bytecode;
 
 function deployContract(){
     let fairFee = document.getElementById('fairFee').value;

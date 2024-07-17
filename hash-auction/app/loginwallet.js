@@ -19,7 +19,6 @@ export default function Login() {
       return
     }
     router.push('/dashboard');
-
   }
 
   return (
