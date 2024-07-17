@@ -1,17 +1,16 @@
 'use client'
 
 import React from 'react';
-import Web3 from 'web3';
+import web3 from '../setweb3';
 import AuctionMetaData from '../../../artifacts/Auction_metadata.json';
 import AuctionByteCode from '../../../artifacts/Auction_bytecode.json';
-import { userAddress } from '../login';
+import { userAddress } from '../loginwallet';
 
 const AuctionContractABI = AuctionMetaData.output.abi;
-const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 
 const contract = new web3.eth.Contract(AuctionContractABI);
 contract.defaultChain = "sepolia";
-contract.options.data = AuctionByteCode.bytecode;
+contract.options.data = "0x" + AuctionByteCode.bytecode;
 
 function deployContract(){
     let fairFee = document.getElementById('fairFee').value;

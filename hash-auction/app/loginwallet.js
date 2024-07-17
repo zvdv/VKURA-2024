@@ -16,7 +16,7 @@ export default function Login() {
       userAddress = accounts[0]; // add change account button later
     } else {
       document.getElementById("reply").innerHTML = "Please install Metamask wallet";
-      return
+      return;
     }
     router.push('/dashboard');
   }

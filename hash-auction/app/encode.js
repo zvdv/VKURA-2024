@@ -23,6 +23,12 @@ function hash(bid){
 }
 
 function output(){
+    document.getElementById('reply').innerHTML = "";
+
+    if (document.getElementById('bid').value < 0){
+        document.getElementById('reply').innerHTML = "Please enter a positive integer.";
+        return;
+    }
     document.getElementById("hash").innerHTML = hash(document.getElementById("bid").value)
 }
 
@@ -34,6 +40,7 @@ export default function Hasher() {
             <input type='number' id='bid' name='bid' />
             <input type='submit' />
         </form>
+        <p id='reply'></p>
         <p id="hash">Hashed value: </p>
         </div>
     )
