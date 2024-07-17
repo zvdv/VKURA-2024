@@ -55,4 +55,5 @@ input[type=submit] {
   border: solid;
   border-color: purple;
   padding: 5px 10px;
+  cursor: pointer;
 }
