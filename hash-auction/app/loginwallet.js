@@ -22,7 +22,7 @@ export default function Login() {
   }
 
   return (
-    <div class='centerdiv'>
+    <div>
       <button id='connect' onClick={connectWallet}>Connect Ethereum wallet</button>
       <p id='reply'></p>
     </div>

@@ -12,7 +12,9 @@ const contract = new web3.eth.Contract(AuctionContractABI);
 contract.defaultChain = "sepolia";
 contract.options.data = "0x" + AuctionByteCode.bytecode;
 
-function deployContract(){
+let auctioneerAddress;
+
+async function deployContract(){
     let fairFee = document.getElementById('fairFee').value;
     let bidPeriod = document.getElementById('bidPeriod').value;
     let revealPeriod = document.getElementById('revealPeriod').value;
@@ -26,28 +28,23 @@ function deployContract(){
         testing = radio[1].value;
     }
     //document.getElementById('radio').innerHTML = testing;
-    let auctioneerAddress = userAddress;
+    auctioneerAddress = userAddress;
 
-    contract.deploy({arguments: [fairFee, bidPeriod, revealPeriod, claimWinnerPeriod, withdrawPeriod, testing]})
-    .send({
-        from: auctioneerAddress // need to set this!!
-    })
-    .on('error', function(error){
+    const deployer = contract.deploy({arguments: [fairFee, bidPeriod, revealPeriod, claimWinnerPeriod, withdrawPeriod, testing]});
+
+    const gas = await deployer.estimateGas({from: auctioneerAddress});
+
+    try {
+        const tx = await deployer.send({
+            from: auctioneerAddress,
+            gas: gas,
+            gasPrice: 10000000000
+        });
+        document.getElementById('reply').innerHTML = "Deployed at address: " + tx.options.address;
+    } catch (error) {
         console.log(error);
-    })
-    .on('transactionHash', function(transactionHash){
-        console.log(transactionHash);
-    })
-    .on('receipt', function(receipt){
-    console.log(receipt.contractAddress) // contains the new contract address
-    })
-    .on('confirmation', function(confirmationNumber, receipt){
-        console.log(receipt);
-    })
-    .then(function(newContractInstance){
-        console.log(newContractInstance.options.address) // instance with the new contract address
-    });
-    return receipt.contractAddress;
+    }
+    //return tx.options.contractAddress;
 }
 
 export default function Deployer(){
@@ -78,8 +75,7 @@ export default function Deployer(){
             <br />
             <input type='submit' />
         </form>
-
-        <p id='radio'></p>
+        <p id='reply'></p>
         </div>
     )
 }
