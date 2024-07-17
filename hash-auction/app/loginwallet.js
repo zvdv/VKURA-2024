@@ -14,10 +14,12 @@ export default function Login() {
       const accounts = await window.ethereum.request({method: "eth_requestAccounts"});
       document.getElementById("connect").innerHTML = "Connected!";
       userAddress = accounts[0]; // add change account button later
-      router.push('/dashboard');
     } else {
       document.getElementById("reply").innerHTML = "Please install Metamask wallet";
+      return
     }
+    router.push('/dashboard');
+
   }
 
   return (
