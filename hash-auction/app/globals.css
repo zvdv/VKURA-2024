@@ -35,7 +35,24 @@ body {
   }
 }
 
-input {
+.centerdiv {
+  margin: auto;
+  width: 50%;
+  min-width: 100px;
+  border: solid;
+  border-color: white;
+  text-align: center;
+}
+
+input[type=text], input[type=number] {
   color:black;
   border-radius: 25px;
+}
+
+input[type=submit] {
+  background-color: plum;
+  border-radius: 25px;
+  border: solid;
+  border-color: purple;
+  padding: 5px 10px;
 }

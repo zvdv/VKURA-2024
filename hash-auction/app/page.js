@@ -15,13 +15,13 @@ export default function Login() {
     }
 
     return (
-      <main className=''>
+      <div class='centerdiv'>
         <form action={validateAddress}>
             <label for='address'>Ethereum address: </label>
             <input type='text' id='address' name='address' />
             <br />
             <input type='submit' value='Login' className='cursor-pointer'/>
         </form>
-      </main>
+      </div>
     );
   }
