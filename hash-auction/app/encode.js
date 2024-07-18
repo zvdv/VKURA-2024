@@ -26,6 +26,7 @@ function output(){
     document.getElementById('reply').innerHTML = "";
 
     if (document.getElementById('bid').value < 0){
+        console.log("Please enter a positive integer.");
         document.getElementById('reply').innerHTML = "Please enter a positive integer.";
         return;
     }
@@ -37,7 +38,7 @@ export default function Hasher() {
         <div className='outline outline-white'>
         <form action={output}>
             <label for='bid'>Enter bid:</label>
-            <input type='number' id='bid' name='bid' />
+            <input type='number' id='bid' name='bid' min={0} required />
             <input type='submit' />
         </form>
         <p id='reply'></p>

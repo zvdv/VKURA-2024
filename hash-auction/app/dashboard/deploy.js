@@ -4,13 +4,14 @@ import React from 'react';
 import web3 from '../setweb3';
 import AuctionMetaData from '../../../artifacts/Auction_metadata.json';
 import AuctionByteCode from '../../../artifacts/Auction_bytecode.json';
-import { userAddress } from '../loginwallet';
+import { currentAddress } from '../displayaccount';
 
 const AuctionContractABI = AuctionMetaData.output.abi;
 
 const contract = new web3.eth.Contract(AuctionContractABI);
 contract.defaultChain = "sepolia";
 contract.options.data = "0x" + AuctionByteCode.bytecode;
+contract.handleRevert = true;
 
 let auctioneerAddress;
 
@@ -27,22 +28,33 @@ async function deployContract(){
     } else {
         testing = radio[1].value;
     }
-    //document.getElementById('radio').innerHTML = testing;
-    auctioneerAddress = userAddress;
+    let msgvalue = document.getElementById('value').value;
+    auctioneerAddress = currentAddress;
+
+    console.log("Successfully declared variables!");
 
     const deployer = contract.deploy({arguments: [fairFee, bidPeriod, revealPeriod, claimWinnerPeriod, withdrawPeriod, testing]});
 
-    const gas = await deployer.estimateGas({from: auctioneerAddress});
+    console.log("Successfully created deployer!")
+
+    //const gas = await deployer.estimateGas({from: auctioneerAddress});
+    const gas = 2000000;
+
+    console.log("Successfully estimated gas!");
 
     try {
+        console.log("In try.")
         const tx = await deployer.send({
             from: auctioneerAddress,
             gas: gas,
-            gasPrice: 10000000000
+            gasPrice: 10000000000,
+            value: msgvalue,
         });
+        console.log("Sent deploy!")
         document.getElementById('reply').innerHTML = "Deployed at address: " + tx.options.address;
     } catch (error) {
         console.log(error);
+        document.getElementById('error').innerHTML = "Log: " + error;
     }
     //return tx.options.contractAddress;
 }
@@ -51,31 +63,35 @@ export default function Deployer(){
     return (
         <div className='outline outline-green-300'>
         <form action={deployContract}>
-            <label for='fairFee'>Minimum deposit for bidders (and auctioneer): </label>
-            <input type='number' id='fairFee' name='fairFee' />
+            <label for='fairFee'>Minimum deposit for bidders and auctioneer (wei): </label>
+            <input type='number' id='fairFee' name='fairFee' min={0} required />
             <p>Please choose the number of blocks for each stage of the auction. Keep in mind 5 blocks on the Sepolia Testnet is about 1 minute.</p>
             <label for='bidPeriod'>Bidding period: </label>
-            <input type='number' id='bidPeriod' name='bidPeriod' />
+            <input type='number' id='bidPeriod' name='bidPeriod' min={0} required />
             <br />
             <label for='revealPeriod'>Revealing period: </label>
-            <input type='number' id='revealPeriod' name='revealPeriod' />
+            <input type='number' id='revealPeriod' name='revealPeriod' min={0} required />
             <br />
             <label for='claimWinnerPeriod'>Claiming winner period: </label>
-            <input type='number' id='claimWinnerPeriod' name='claimWinnerPeriod' />
+            <input type='number' id='claimWinnerPeriod' name='claimWinnerPeriod' min={0} required />
             <br />
             <label for='withdrawPeriod'>Withdrawing period:</label>
-            <input type='number' id='withdrawPeriod' name='withdrawPeriod' />
+            <input type='number' id='withdrawPeriod' name='withdrawPeriod' min={0} required />
             <br />
             <p>Are you testing? (Will ignore block periods if true.)</p>
-            <input type='radio' id='true' name='testing' value={true} />
+            <input type='radio' id='true' name='testing' value={true} required />
             <label for='true'>Yes</label>
             <br />
-            <input type='radio' id='false' name='testing' value={false} />
+            <input type='radio' id='false' name='testing' value={false} required />
             <label for='false'>No</label>
+            <br />
+            <label for='value'>Value (wei): </label>
+            <input type='number' id='value' name='value' required />
             <br />
             <input type='submit' />
         </form>
         <p id='reply'></p>
+        <p id='error'></p>
         </div>
     )
 }

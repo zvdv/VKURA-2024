@@ -57,3 +57,11 @@ button, input[type=submit] {
   padding: 5px 10px;
   cursor: pointer;
 }
+
+/* input:invalid {
+  border: 1px solid palevioletred;
+}
+
+input:valid {
+  border: 1px solid aquamarine;
+} */
