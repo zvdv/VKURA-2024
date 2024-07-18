@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import { MetaMaskProvider } from "@metamask/sdk-react";
+import { MetaMaskProvider } from "@metamask/sdk-react"; // does not export MetaMaskProvider? Smh docs
 
 const root = ReactDOM.createRoot(
   document.getElementById("root")

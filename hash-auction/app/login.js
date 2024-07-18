@@ -21,7 +21,7 @@ export default function Login() {
   return (
     <div class='centerdiv'>
       <form action={validateAddress}>
-          <label for='address'>Ethereum address: </label>
+          <label htmlFor='address'>Ethereum address: </label>
           <input type='text' id='address' name='address' />
           <br />
           <input type='submit' value='Login'/>

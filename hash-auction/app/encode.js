@@ -37,7 +37,7 @@ export default function Hasher() {
     return (
         <div className='outline outline-white'>
         <form action={output}>
-            <label for='bid'>Enter bid:</label>
+            <label htmlFor='bid'>Enter bid:</label>
             <input type='number' id='bid' name='bid' min={0} required />
             <input type='submit' />
         </form>

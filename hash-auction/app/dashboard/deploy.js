@@ -63,29 +63,29 @@ export default function Deployer(){
     return (
         <div className='outline outline-green-300'>
         <form action={deployContract}>
-            <label for='fairFee'>Minimum deposit for bidders and auctioneer (wei): </label>
+            <label htmlFor='fairFee'>Minimum deposit for bidders and auctioneer (wei): </label>
             <input type='number' id='fairFee' name='fairFee' min={0} required />
             <p>Please choose the number of blocks for each stage of the auction. Keep in mind 5 blocks on the Sepolia Testnet is about 1 minute.</p>
-            <label for='bidPeriod'>Bidding period: </label>
+            <label htmlFor='bidPeriod'>Bidding period: </label>
             <input type='number' id='bidPeriod' name='bidPeriod' min={0} required />
             <br />
-            <label for='revealPeriod'>Revealing period: </label>
+            <label htmlFor='revealPeriod'>Revealing period: </label>
             <input type='number' id='revealPeriod' name='revealPeriod' min={0} required />
             <br />
-            <label for='claimWinnerPeriod'>Claiming winner period: </label>
+            <label htmlFor='claimWinnerPeriod'>Claiming winner period: </label>
             <input type='number' id='claimWinnerPeriod' name='claimWinnerPeriod' min={0} required />
             <br />
-            <label for='withdrawPeriod'>Withdrawing period:</label>
+            <label htmlFor='withdrawPeriod'>Withdrawing period:</label>
             <input type='number' id='withdrawPeriod' name='withdrawPeriod' min={0} required />
             <br />
             <p>Are you testing? (Will ignore block periods if true.)</p>
             <input type='radio' id='true' name='testing' value={true} required />
-            <label for='true'>Yes</label>
+            <label htmlFor='true'>Yes</label>
             <br />
             <input type='radio' id='false' name='testing' value={false} required />
-            <label for='false'>No</label>
+            <label htmlFor='false'>No</label>
             <br />
-            <label for='value'>Value (wei): </label>
+            <label htmlFor='value'>Value (wei): </label>
             <input type='number' id='value' name='value' required />
             <br />
             <input type='submit' />

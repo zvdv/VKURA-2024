@@ -5,11 +5,11 @@ import Hasher from '../encode';
 import Deployer from './deploy';
 import CurrentAccount from '../displayaccount';
 
-const AuctionContractABI = AuctionMetaData.output.abi;
-const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
+// const AuctionContractABI = AuctionMetaData.output.abi;
+// const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 
-const contractAddress = '0x90c5b9D0936fa081e05e7699EECa9585f5Ea3192';
-const contract = new web3.eth.Contract(AuctionContractABI, contractAddress);
+// const contractAddress = '0x90c5b9D0936fa081e05e7699EECa9585f5Ea3192';
+// const contract = new web3.eth.Contract(AuctionContractABI, contractAddress);
 
 export default function Home() {
   return (
