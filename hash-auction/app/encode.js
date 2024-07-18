@@ -19,17 +19,20 @@ function hash(bid){
     let nonce = getRndInteger(1000,1000000000);
     let encoded = web3.eth.abi.encodeParameters(['uint', 'uint'], [bid,nonce]);
     let hashed = web3.utils.soliditySha3(encoded);
+
+    const bidder = new Bidder(bid, nonce, hashed); // add this to existing array
+
     return hashed;
 }
 
 function output(){
-    document.getElementById('reply').innerHTML = "";
+    //document.getElementById('reply').innerHTML = "";
 
-    if (document.getElementById('bid').value < 0){
-        console.log("Please enter a positive integer.");
-        document.getElementById('reply').innerHTML = "Please enter a positive integer.";
-        return;
-    }
+    // if (document.getElementById('bid').value < 0){
+    //     console.log("Please enter a positive integer.");
+    //     document.getElementById('reply').innerHTML = "Please enter a positive integer.";
+    //     return;
+    // }
     document.getElementById("hash").innerHTML = hash(document.getElementById("bid").value)
 }
 
