@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-let userAddress = null;
+let userAddress;
 export {userAddress};
 
 export default function Login() {
@@ -12,8 +12,8 @@ export default function Login() {
     if (typeof window.ethereum !== "undefined") {
       // Metamask is installed
       const accounts = await window.ethereum.request({method: "eth_requestAccounts"});
-      document.getElementById("connect").innerHTML = "Connected!";
       userAddress = accounts[0]; // add change account button later
+      document.getElementById("connect").innerHTML = "Connected!";
     } else {
       document.getElementById("reply").innerHTML = "Please install Metamask wallet";
       return;

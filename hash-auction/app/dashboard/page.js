@@ -3,7 +3,8 @@ import Web3 from 'web3';
 import AuctionMetaData from '../../../artifacts/Auction_metadata.json';
 import Hasher from '../encode';
 import Deployer from './deploy';
-import CurrentAccount from '../displayaccount';
+import Account from '../displayaccount';
+import Bidders from '../bidder';
 
 // const AuctionContractABI = AuctionMetaData.output.abi;
 // const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
@@ -14,9 +15,10 @@ import CurrentAccount from '../displayaccount';
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <CurrentAccount />
+      <Account />
       <Hasher />
       <Deployer />
+      <Bidders />
     </main>
   );
 }

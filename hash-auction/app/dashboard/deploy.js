@@ -4,7 +4,7 @@ import React from 'react';
 import web3 from '../setweb3';
 import AuctionMetaData from '../../../artifacts/Auction_metadata.json';
 import AuctionByteCode from '../../../artifacts/Auction_bytecode.json';
-import { currentAddress } from '../displayaccount';
+import getAddress from '../displayaccount';
 
 const AuctionContractABI = AuctionMetaData.output.abi;
 
@@ -29,7 +29,7 @@ async function deployContract(){
         testing = radio[1].value;
     }
     let msgvalue = document.getElementById('value').value;
-    auctioneerAddress = currentAddress;
+    auctioneerAddress = getAddress()[0];
 
     console.log("Successfully declared variables!");
 

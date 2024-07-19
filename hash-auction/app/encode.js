@@ -3,7 +3,7 @@
 import React from 'react'
 import Web3 from 'web3'
 import { Bidder, bidders } from './bidder';
-import { currentAddress } from './displayaccount';
+import getAddress from './displayaccount';
 
 const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 
@@ -22,7 +22,7 @@ function hash(bid){
     let encoded = web3.eth.abi.encodeParameters(['uint', 'uint'], [bid,nonce]);
     let hashed = web3.utils.soliditySha3(encoded);
 
-    bidders.push(new Bidder(currentAddress, bid, nonce, hashed));
+    bidders.push(new Bidder(getAddress()[0], bid, nonce, hashed));
     // Call contract to commit to hash
 
     return hashed;
@@ -45,7 +45,7 @@ export default function Hasher() {
         <form action={output}>
             <label htmlFor='bid'>Enter bid:</label>
             <input type='number' id='bid' name='bid' min={0} required />
-            <input type='submit' />
+            <input type='submit' value='Bid'/>
         </form>
         <p id='reply'></p>
         <p id="hash">Hashed value: </p>
