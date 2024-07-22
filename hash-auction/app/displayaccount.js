@@ -1,23 +1,23 @@
-'use client'
+'use client';
 
-import React from "react";
-import { userAddress } from "./loginwallet";
-import { useSessionStorage } from 'usehooks-ts';
+import React, { useEffect } from "react";
 
-export function getAddress(){
-    const [address, setAddress] = useSessionStorage('address', userAddress);
-    return [address, setAddress];
-}
+export default function Account(props){
 
-export default function Account(){
-    
+    useEffect(() => {
+        console.log(props);
+    });
+
+    const {address, setAddress} = props;
+
     async function changeAccount(){
         const accounts = await window.ethereum.request({method: "eth_requestAccounts"});
-        getAddress()[1](accounts[0]);
+        setAddress(accounts[0]);
     }
+
     return(
         <div>
-            <p>Current address: {getAddress()[0]}</p>
+            <p>Current address: {address}</p>
             <button onClick={changeAccount}>Change account</button>
         </div>
     )

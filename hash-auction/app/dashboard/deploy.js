@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
 import React from 'react';
 import web3 from '../setweb3';
 import AuctionMetaData from '../../../artifacts/Auction_metadata.json';
 import AuctionByteCode from '../../../artifacts/Auction_bytecode.json';
-import getAddress from '../displayaccount';
+import { useSessionStorage } from 'usehooks-ts';
 
 const AuctionContractABI = AuctionMetaData.output.abi;
 
@@ -15,7 +15,7 @@ contract.handleRevert = true;
 
 let auctioneerAddress;
 
-async function deployContract(){
+async function deployContract(auctioneerAddress){
     let fairFee = document.getElementById('fairFee').value;
     let bidPeriod = document.getElementById('bidPeriod').value;
     let revealPeriod = document.getElementById('revealPeriod').value;
@@ -29,7 +29,6 @@ async function deployContract(){
         testing = radio[1].value;
     }
     let msgvalue = document.getElementById('value').value;
-    auctioneerAddress = getAddress()[0];
 
     console.log("Successfully declared variables!");
 
@@ -59,10 +58,11 @@ async function deployContract(){
     //return tx.options.contractAddress;
 }
 
-export default function Deployer(){
+export default function Deployer({address}){
+
     return (
         <div className='outline outline-green-300'>
-        <form action={deployContract}>
+        <form action={() => deployContract(address)}>
             <label htmlFor='fairFee'>Minimum deposit for bidders and auctioneer (wei): </label>
             <input type='number' id='fairFee' name='fairFee' min={0} required />
             <p>Please choose the number of blocks for each stage of the auction. Keep in mind 5 blocks on the Sepolia Testnet is about 1 minute.</p>

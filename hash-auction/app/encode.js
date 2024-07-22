@@ -17,29 +17,45 @@ function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min + 1) ) + min;
 }
 
-function hash(bid){
-    let nonce = getRndInteger(1000,1000000000);
-    let encoded = web3.eth.abi.encodeParameters(['uint', 'uint'], [bid,nonce]);
-    let hashed = web3.utils.soliditySha3(encoded);
+// function hash(bid){
+//     let nonce = getRndInteger(1000,1000000000);
+//     let encoded = web3.eth.abi.encodeParameters(['uint', 'uint'], [bid,nonce]);
+//     let hashed = web3.utils.soliditySha3(encoded);
 
-    bidders.push(new Bidder(getAddress()[0], bid, nonce, hashed));
-    // Call contract to commit to hash
+//     bidders.push(new Bidder(, bid, nonce, hashed));
+//     // Call contract to commit to hash
 
-    return hashed;
-}
+//     return hashed;
+// }
 
-function output(){
-    //document.getElementById('reply').innerHTML = "";
+// function output(){
+//     //document.getElementById('reply').innerHTML = "";
 
-    // if (document.getElementById('bid').value < 0){
-    //     console.log("Please enter a positive integer.");
-    //     document.getElementById('reply').innerHTML = "Please enter a positive integer.";
-    //     return;
-    // }
-    document.getElementById("hash").innerHTML = hash(document.getElementById("bid").value)
-}
+//     // if (document.getElementById('bid').value < 0){
+//     //     console.log("Please enter a positive integer.");
+//     //     document.getElementById('reply').innerHTML = "Please enter a positive integer.";
+//     //     return;
+//     // }
+//     document.getElementById("hash").innerHTML = hash(document.getElementById("bid").value);
+// }
 
-export default function Hasher() {
+export default function Hasher(address) {
+
+    function hash(bid){
+        let nonce = getRndInteger(1000,1000000000);
+        let encoded = web3.eth.abi.encodeParameters(['uint', 'uint'], [bid,nonce]);
+        let hashed = web3.utils.soliditySha3(encoded);
+    
+        bidders.push(new Bidder(address, bid, nonce, hashed));
+        // Call contract to commit to hash
+    
+        return hashed;
+    }
+
+    function output(){
+        document.getElementById("hash").innerHTML = hash(document.getElementById("bid").value);
+    }
+
     return (
         <div className='outline outline-white'>
         <form action={output}>
