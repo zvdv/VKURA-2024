@@ -24,8 +24,9 @@ contract Auction {
     uint public fairFee; // Minimum deposit for auctioneer and bidders to ensure fairness
     uint public bidPeriodEnd; // Number of blocks
     uint public revealPeriodEnd;
-    uint public claimWinnerEnd;
+    //uint public claimWinnerEnd;
     uint public withdrawEnd;
+    uint public withdrawPeriod;
     //uint public maxBidders;
     //uint public maxBid;
 
@@ -34,15 +35,16 @@ contract Auction {
     bool public winnerClaimed = false;
     event winnerSet(address indexed _winner);
 
-    constructor(uint _fairFee, uint bidPeriod, uint revealPeriod, uint claimWinnerPeriod, uint withdrawPeriod, bool _testing) payable {
+    constructor(uint _fairFee, uint bidPeriod, uint revealPeriod, /*uint claimWinnerPeriod,*/ uint _withdrawPeriod, bool _testing) payable {
         require(msg.value >= _fairFee, "Insufficient deposit.");
         auctioneerPaid = msg.value;
         auctioneerAddress = msg.sender;
         //auctioneerPublicKey = _auctioneerPublicKey;
         bidPeriodEnd = block.number + bidPeriod;
         revealPeriodEnd = bidPeriodEnd + revealPeriod;
-        claimWinnerEnd = revealPeriodEnd + claimWinnerPeriod;
-        withdrawEnd = claimWinnerEnd + withdrawPeriod;
+        //claimWinnerEnd = revealPeriodEnd + claimWinnerPeriod;
+        //withdrawEnd = claimWinnerEnd + withdrawPeriod;
+        withdrawPeriod = _withdrawPeriod;
         //maxBidders = _maxBidders;
         testing = _testing;
     }
@@ -74,7 +76,7 @@ contract Auction {
 
     function claimWinner() public {
         require(winnerClaimed == false, "Winner has already been claimed.");
-        require(block.number > revealPeriodEnd && block.number < claimWinnerEnd || testing, "Outside claim winner period.");
+        require(block.number > revealPeriodEnd /*&& block.number < claimWinnerEnd*/|| testing, "Outside claim winner period.");
         for (uint i = 0; i < bidders.length; i++){
             if (bids[bidders[i]].validCommit == false){
                 continue;
@@ -86,11 +88,12 @@ contract Auction {
         }
         bids[winner].paid -= winningBid; // Value of winning bid stays in contract for now
         winnerClaimed = true;
+        withdrawEnd = block.number + withdrawPeriod;
         emit winnerSet(winner);
     }
 
     function withdraw() public {
-        require(block.number > claimWinnerEnd && block.number < withdrawEnd || testing, "Outside withdrawal period.");
+        require(winnerClaimed && block.number < withdrawEnd || testing, "Outside withdrawal period.");
         require(bids[msg.sender].commit.length != 0, "Bidder does not exist.");
         uint amount = bids[msg.sender].paid;
         bids[msg.sender].paid = 0;
