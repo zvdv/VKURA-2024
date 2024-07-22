@@ -54,7 +54,7 @@ contract Auction {
         require(block.number < bidPeriodEnd || testing, "Outside bidding period.");
         require(msg.sender != auctioneerAddress, "Auctioneer cannot bid.");
         //require(bidders.length < maxBidders, "Too many bidders.");
-        require(bids[msg.sender].commit.length == 0, "Bidder has already bid.");
+        require(bids[msg.sender].commit == "", "Bidder has already bid.");
         bids[msg.sender].commit = _commit;
         bids[msg.sender].paid = msg.value;
         bidders.push(msg.sender);
@@ -62,7 +62,7 @@ contract Auction {
 
     function reveal(uint _bid, uint _nonce) public {
         require(block.number < revealPeriodEnd && block.number > bidPeriodEnd || testing, "Outside revealing period.");
-        require(bids[msg.sender].commit.length != 0, "Bidder does not exist.");
+        require(bids[msg.sender].commit != "", "Bidder does not exist.");
         require(_bid <= bids[msg.sender].paid, "Bid is higher than bidder's deposit.");
         if (keccak256(abi.encode(_bid, _nonce)) == bids[msg.sender].commit){
             bids[msg.sender].validCommit = true;
