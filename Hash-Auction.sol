@@ -3,7 +3,6 @@
 pragma solidity ^0.8.25;
 
 contract Auction {
-    //bool public open;
     bool public testing;
 
     struct Bidder {
@@ -32,6 +31,8 @@ contract Auction {
 
     address public winner;
     uint public winningBid;
+    bool public winnerClaimed = false;
+    event winnerSet(address indexed _winner);
 
     constructor(uint _fairFee, uint bidPeriod, uint revealPeriod, uint claimWinnerPeriod, uint withdrawPeriod, bool _testing) payable {
         require(msg.value >= _fairFee, "Insufficient deposit.");
@@ -51,7 +52,7 @@ contract Auction {
         require(block.number < bidPeriodEnd || testing, "Outside bidding period.");
         require(msg.sender != auctioneerAddress, "Auctioneer cannot bid.");
         //require(bidders.length < maxBidders, "Too many bidders.");
-        require(bids[msg.sender].commit == "", "Bidder has already bid.");
+        require(bids[msg.sender].commit.length == 0, "Bidder has already bid.");
         bids[msg.sender].commit = _commit;
         bids[msg.sender].paid = msg.value;
         bidders.push(msg.sender);
@@ -71,7 +72,8 @@ contract Auction {
         }
     }
 
-    function claimWinner() public OnlyAuctioneer {
+    function claimWinner() public {
+        require(winnerClaimed == false, "Winner has already been claimed.");
         require(block.number > revealPeriodEnd && block.number < claimWinnerEnd || testing, "Outside claim winner period.");
         for (uint i = 0; i < bidders.length; i++){
             if (bids[bidders[i]].validCommit == false){
@@ -83,32 +85,22 @@ contract Auction {
             }
         }
         bids[winner].paid -= winningBid; // Value of winning bid stays in contract for now
+        winnerClaimed = true;
+        emit winnerSet(winner);
     }
 
     function withdraw() public {
         require(block.number > claimWinnerEnd && block.number < withdrawEnd || testing, "Outside withdrawal period.");
+        require(bids[msg.sender].commit.length != 0, "Bidder does not exist.");
         uint amount = bids[msg.sender].paid;
         bids[msg.sender].paid = 0;
         payable(msg.sender).transfer(amount);
     }
 
-    function endAuction() public OnlyAuctioneer {
+    function endAuction() public {
         require(block.number > withdrawEnd || testing, "Too early to close auction.");
         uint amount = auctioneerPaid;
         auctioneerPaid = 0;
         payable(auctioneerAddress).transfer(amount);
-        //open = true;
-        // Clear all variables
-    }
-
-    // Make function mirroring constructor to start a new auction
-    // Require open == true
-    // Set 'open' bool back to false
-
-    // Alternatively, add function on frontend to deploy a new copy of the auction contract (better I think)
-
-    modifier OnlyAuctioneer(){
-        require(msg.sender == auctioneerAddress, "Only auctioneer can call.");
-        _;
     }
 }
