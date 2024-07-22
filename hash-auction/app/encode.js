@@ -3,7 +3,6 @@
 import React from 'react'
 import Web3 from 'web3'
 import { Bidder, bidders } from './bidder';
-import getAddress from './displayaccount';
 
 const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 
@@ -48,12 +47,16 @@ export default function Hasher(address) {
     
         bidders.push(new Bidder(address, bid, nonce, hashed));
         // Call contract to commit to hash
-    
-        return hashed;
+
+        return {
+            haash: hashed, 
+            noonce: nonce
+        }
     }
 
     function output(){
-        document.getElementById("hash").innerHTML = hash(document.getElementById("bid").value);
+        const {haash, noonce} = hash(document.getElementById("bid").value);
+        document.getElementById("hash").innerHTML = "Hash: " + haash + " Nonce: " + noonce;
     }
 
     return (

@@ -18,11 +18,13 @@ import { useSessionStorage } from 'usehooks-ts';
 
 export default function Home() {
   const [address, setAddress] = useSessionStorage('address', userAddress);
+  const [contract, setContract] = useSessionStorage('contract');
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <Account address={address} setAddress={setAddress}/>
-      <Hasher address={address}/>
+      <Contract contract={contract} setContract={setContract}/>
+      <Hasher address={address} contract={contract}/>
       <Deployer address={address}/>
       <Bidders />
     </div>
