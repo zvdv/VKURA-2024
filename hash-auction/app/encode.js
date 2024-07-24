@@ -3,7 +3,6 @@
 import React from 'react'
 import Web3 from 'web3'
 import { Bidder, bidders } from './bidder';
-import getAddress from './displayaccount';
 
 const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 
@@ -39,25 +38,30 @@ function getRndInteger(min, max) {
 //     document.getElementById("hash").innerHTML = hash(document.getElementById("bid").value);
 // }
 
-export default function Hasher(address) {
+export default function Hasher(props) {
+    const {address, contract, bidders, setBidders} = props;
 
     function hash(bid){
         let nonce = getRndInteger(1000,1000000000);
         let encoded = web3.eth.abi.encodeParameters(['uint', 'uint'], [bid,nonce]);
         let hashed = web3.utils.soliditySha3(encoded);
     
-        bidders.push(new Bidder(address, bid, nonce, hashed));
+        setBidders([...bidders, new Bidder(address, bid, nonce, hashed)]);
         // Call contract to commit to hash
-    
-        return hashed;
+
+        return {
+            haash: hashed, 
+            noonce: nonce
+        }
     }
 
     function output(){
-        document.getElementById("hash").innerHTML = hash(document.getElementById("bid").value);
+        const {haash, noonce} = hash(document.getElementById("bid").value);
+        document.getElementById("hash").innerHTML = "Hash: " + haash + " Nonce: " + noonce;
     }
 
     return (
-        <div className='outline outline-white'>
+        <div className='float-left my-4'>
         <form action={output}>
             <label htmlFor='bid'>Enter bid:</label>
             <input type='number' id='bid' name='bid' min={0} required />

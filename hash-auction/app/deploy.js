@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import web3 from '../setweb3';
-import AuctionMetaData from '../../../artifacts/Auction_metadata.json';
-import AuctionByteCode from '../../../artifacts/Auction_bytecode.json';
+import web3 from './setweb3';
+import AuctionMetaData from '../../artifacts/Auction_metadata.json';
+import AuctionByteCode from '../../artifacts/Auction_bytecode.json';
 import { useSessionStorage } from 'usehooks-ts';
 
 const AuctionContractABI = AuctionMetaData.output.abi;
@@ -61,7 +61,7 @@ async function deployContract(auctioneerAddress){
 export default function Deployer({address}){
 
     return (
-        <div className='outline outline-green-300'>
+        <div className='float-left my-4'>
         <form action={() => deployContract(address)}>
             <label htmlFor='fairFee'>Minimum deposit for bidders and auctioneer (wei): </label>
             <input type='number' id='fairFee' name='fairFee' min={0} required />
