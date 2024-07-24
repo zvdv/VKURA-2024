@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import web3 from '../setweb3';
-import AuctionMetaData from '../../../artifacts/Auction_metadata.json';
-import AuctionByteCode from '../../../artifacts/Auction_bytecode.json';
+import web3 from './setweb3';
+import AuctionMetaData from '../../artifacts/Auction_metadata.json';
+import AuctionByteCode from '../../artifacts/Auction_bytecode.json';
 import { useSessionStorage } from 'usehooks-ts';
 
 const AuctionContractABI = AuctionMetaData.output.abi;
