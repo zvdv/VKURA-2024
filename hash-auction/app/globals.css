@@ -50,12 +50,13 @@ input[type=text], input[type=number] {
 }
 
 button, input[type=submit] {
-  background-color: plum;
+  background-color: #f0abfc;
   border-radius: 25px;
   border: solid;
-  border-color: purple;
+  border-color: #701a75;
   padding: 5px 10px;
   cursor: pointer;
+  color: #701a75;
 }
 
 /* input:invalid {

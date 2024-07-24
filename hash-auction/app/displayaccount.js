@@ -21,7 +21,7 @@ export default function Account(props){
     }
 
     return(
-        <div>
+        <div className="my-4">
             <p>Current address: {address}</p>
             <button id='account' onClick={changeAccount}>Set Account</button>
             <p id='reply'></p>

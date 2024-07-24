@@ -61,7 +61,7 @@ export default function Hasher(props) {
     }
 
     return (
-        <div className='outline outline-white'>
+        <div className='float-left my-4'>
         <form action={output}>
             <label htmlFor='bid'>Enter bid:</label>
             <input type='number' id='bid' name='bid' min={0} required />

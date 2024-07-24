@@ -61,7 +61,7 @@ async function deployContract(auctioneerAddress){
 export default function Deployer({address}){
 
     return (
-        <div className='outline outline-green-300'>
+        <div className='float-left my-4'>
         <form action={() => deployContract(address)}>
             <label htmlFor='fairFee'>Minimum deposit for bidders and auctioneer (wei): </label>
             <input type='number' id='fairFee' name='fairFee' min={0} required />

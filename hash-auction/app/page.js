@@ -23,7 +23,9 @@ export default function Home() {
   const [bidders, setBidders] = useState([]);
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
+    <div className="p-24">
+      <p className='text-xl font-bold text-fuchsia-300'>SecureBid:</p>
+      <h1 className='text-3xl font-bold text-fuchsia-300'>BLOCKTIONEER</h1>
       <Account address={address} setAddress={setAddress}/>
       {/* <Contract contract={contract} setContract={setContract}/> */}
       <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders}/>

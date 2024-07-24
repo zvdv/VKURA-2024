@@ -21,7 +21,7 @@ export default function Bidders(props){
 
     let output = [];
     for (let i = 0; i < bidders.length; i++){
-        output = [...output,<div className="outline outline-fuchsia-900 rounded p-2 m-2"><p className="font-bold">Bidder {i}:</p><p>Address: {bidders[i].address}</p><p>Bid: {bidders[i].bid}</p><p>Nonce: {bidders[i].nonce}</p><p>Hash: {bidders[i].hash}</p></div>];
+        output = [...output,<div className="outline outline-fuchsia-900 rounded p-2 m-2 float-right"><p className="font-bold">Bidder {i}:</p><p>Address: {bidders[i].address}</p><p>Bid: {bidders[i].bid}</p><p>Nonce: {bidders[i].nonce}</p><p>Hash: {bidders[i].hash}</p></div>];
     }
     
     return(
