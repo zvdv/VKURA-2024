@@ -10,7 +10,20 @@ web3.handleRevert = true;
 const contractAddress = '0xa8d32ec71dc2bde11c3f9a58cc2be75a07462765'; //Most recent Sepolia deployed version
 const auctionContract = new web3.eth.Contract(abi, contractAddress);
 
-const fairFee = auctionContract.methods.fairFee().call({from: address})
-.then(console.log);
+let fairFee = null;
 
-console.log("Fair fee: " + fairFee);
+// try{
+//     fairFee = auctionContract.methods.fairFee().call();
+// } catch(error) {
+//     console.log(error);
+// } finally {
+//     console.log("Fair fee: " + fairFee);
+// }
+
+try {
+    fairFee = await auctionContract.methods.auctioneerPaid().call({from: address});
+} catch (error) {
+    console.error('Error calling fairFee:', error);
+} finally {
+    console.log("Fair fee:", fairFee);
+}

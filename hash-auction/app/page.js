@@ -23,7 +23,8 @@ export default function Home() {
   const [contract, setContract] = useSessionStorage('contract', auctionContract);
   const [bidders, setBidders] = useState([]);
 
-  const fairFee = contract.methods.fairFee().call({from: address});
+  const fairFee = String(contract.methods.fairFee().call({from: address}));
+  const testing = String(contract.methods.testing().call({from: address}));
 
   //let prov = Web3.providers.WebsocketProvider;
   // if(Web3.givenProvider != null){
@@ -40,7 +41,8 @@ export default function Home() {
       {/* <Contract contract={contract} setContract={setContract}/> */}
       <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders}/>
       <Deployer address={address}/>
-      {/* <p>Fair Fee: {fairFee}</p> */}
+      <p>Fair Fee: {fairFee}</p>
+      <p>Testing? {testing}</p>
       <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />
       {/* <p>contractAddress: {contractAddress}</p>
       <p>auctionContract.options.address: {auctionContract.options.address}</p> 
