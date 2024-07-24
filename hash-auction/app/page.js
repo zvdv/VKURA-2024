@@ -11,15 +11,15 @@ import { userAddress } from './loginwallet';
 import { useSessionStorage } from 'usehooks-ts';
 import { useState } from 'react';
 
-// const AuctionContractABI = AuctionMetaData.output.abi;
-// const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
+const AuctionContractABI = AuctionMetaData.output.abi;
+const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 
-// const contractAddress = '0x90c5b9D0936fa081e05e7699EECa9585f5Ea3192';
-// const contract = new web3.eth.Contract(AuctionContractABI, contractAddress);
+const contractAddress = '0x9d83e140330758a8fFD07F8Bd73e86ebcA8a5692';
+const auctionContract = new web3.eth.Contract(AuctionContractABI, contractAddress);
 
 export default function Home() {
   const [address, setAddress] = useSessionStorage('address', userAddress);
-  const [contract, setContract] = useSessionStorage('contract');
+  const [contract, setContract] = useSessionStorage('contract', auctionContract);
   const [bidders, setBidders] = useState([]);
 
   return (
