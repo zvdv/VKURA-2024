@@ -9,6 +9,7 @@ import Account from '../displayaccount';
 import Bidders from '../bidder';
 import { userAddress } from '../loginwallet';
 import { useSessionStorage } from 'usehooks-ts';
+import { useState } from 'react';
 
 // const AuctionContractABI = AuctionMetaData.output.abi;
 // const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
@@ -19,14 +20,15 @@ import { useSessionStorage } from 'usehooks-ts';
 export default function Home() {
   const [address, setAddress] = useSessionStorage('address', userAddress);
   const [contract, setContract] = useSessionStorage('contract');
+  const [bidders, setBidders] = useState([]);
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <Account address={address} setAddress={setAddress}/>
-      <Contract contract={contract} setContract={setContract}/>
-      <Hasher address={address} contract={contract}/>
+      {/* <Contract contract={contract} setContract={setContract}/> */}
+      <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders}/>
       <Deployer address={address}/>
-      <Bidders />
+      <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />
     </div>
   );
 }

@@ -38,14 +38,15 @@ function getRndInteger(min, max) {
 //     document.getElementById("hash").innerHTML = hash(document.getElementById("bid").value);
 // }
 
-export default function Hasher(address) {
+export default function Hasher(props) {
+    const {address, contract, bidders, setBidders} = props;
 
     function hash(bid){
         let nonce = getRndInteger(1000,1000000000);
         let encoded = web3.eth.abi.encodeParameters(['uint', 'uint'], [bid,nonce]);
         let hashed = web3.utils.soliditySha3(encoded);
     
-        bidders.push(new Bidder(address, bid, nonce, hashed));
+        setBidders([...bidders, new Bidder(address, bid, nonce, hashed)]);
         // Call contract to commit to hash
 
         return {

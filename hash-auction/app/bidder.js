@@ -1,5 +1,7 @@
 'use client'
 
+import { useState, useEffect } from "react";
+
 class Bidder {
     constructor(address, bid, nonce, hash){
         this.address = address;
@@ -9,19 +11,22 @@ class Bidder {
     }
 }
 
-const bidders = [];
+//const bidders = [];
 
 export {Bidder};
-export {bidders};
+//export {bidders};
 
-export default function Bidders(){
-    function getBidders(){
-        document.getElementById('bidders').innerHTML = bidders[0].nonce;
+export default function Bidders(props){
+    const {bidders, setBidders} = props;
+
+    let output = [];
+    for (let i = 0; i < bidders.length; i++){
+        output = [...output,<div className="outline outline-fuchsia-900 rounded p-2 m-2"><p className="font-bold">Bidder {i}:</p><p>Address: {bidders[i].address}</p><p>Bid: {bidders[i].bid}</p><p>Nonce: {bidders[i].nonce}</p><p>Hash: {bidders[i].hash}</p></div>];
     }
+    
     return(
         <div>
-            <button onClick={getBidders}>Bidders</button>
-            <p id='bidders'></p>
+            {output}
         </div>
     )
 }
