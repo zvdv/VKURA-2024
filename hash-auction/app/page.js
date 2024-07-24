@@ -1,8 +1,9 @@
 'use client';
 
 import React from 'react';
-import Web3 from 'web3';
-import AuctionMetaData from '../../artifacts/Auction_metadata.json';
+// import Web3 from 'web3';
+// import abi from '../../artifacts/auction_abi.json';
+import web3, {auctionContract} from './setweb3';
 import Hasher from './encode';
 import Deployer from './deploy';
 import Account from './displayaccount';
@@ -11,16 +12,25 @@ import { userAddress } from './loginwallet';
 import { useSessionStorage } from 'usehooks-ts';
 import { useState } from 'react';
 
-const AuctionContractABI = AuctionMetaData.output.abi;
-const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
+//const AuctionContractABI = abi;
+// const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 
-const contractAddress = '0x9d83e140330758a8fFD07F8Bd73e86ebcA8a5692';
-const auctionContract = new web3.eth.Contract(AuctionContractABI, contractAddress);
+// const contractAddress = '0xa8d32ec71dc2bde11c3f9a58cc2be75a07462765'; //Most recent Sepolia deployed version
+// const auctionContract = new web3.eth.Contract(abi, contractAddress);
 
 export default function Home() {
   const [address, setAddress] = useSessionStorage('address', userAddress);
   const [contract, setContract] = useSessionStorage('contract', auctionContract);
   const [bidders, setBidders] = useState([]);
+
+  const fairFee = contract.methods.fairFee().call({from: address});
+
+  //let prov = Web3.providers.WebsocketProvider;
+  // if(Web3.givenProvider != null){
+  //   prov = "Given provider: " + Web3.givenProvider;
+  // } else {
+  //   prov = "No given provider.";
+  // }
 
   return (
     <div className="p-24">
@@ -30,7 +40,11 @@ export default function Home() {
       {/* <Contract contract={contract} setContract={setContract}/> */}
       <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders}/>
       <Deployer address={address}/>
+      {/* <p>Fair Fee: {fairFee}</p> */}
       <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />
+      {/* <p>contractAddress: {contractAddress}</p>
+      <p>auctionContract.options.address: {auctionContract.options.address}</p> 
+      The addresses do match.*/}
     </div>
   );
 }

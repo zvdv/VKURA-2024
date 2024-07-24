@@ -48,6 +48,7 @@ export default function Hasher(props) {
     
         setBidders([...bidders, new Bidder(address, bid, nonce, hashed)]);
         // Call contract to commit to hash
+        contract.methods.bid(hashed).send({from: address, value: 10});
 
         return {
             haash: hashed, 

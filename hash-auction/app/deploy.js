@@ -1,16 +1,12 @@
-'use client';
-
 import React from 'react';
 import web3 from './setweb3';
-import AuctionMetaData from '../../artifacts/Auction_metadata.json';
-import AuctionByteCode from '../../artifacts/Auction_bytecode.json';
+import abi from '../../artifacts/auction_abi.json';
+import bytecode from '../../artifacts/auction_bytecode.json';
 import { useSessionStorage } from 'usehooks-ts';
 
-const AuctionContractABI = AuctionMetaData.output.abi;
-
-const contract = new web3.eth.Contract(AuctionContractABI);
+const contract = new web3.eth.Contract(abi);
 contract.defaultChain = "sepolia";
-contract.options.data = "0x" + AuctionByteCode.bytecode;
+contract.options.data = "0x" + bytecode;
 contract.handleRevert = true;
 
 let auctioneerAddress;
