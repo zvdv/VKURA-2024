@@ -11,6 +11,7 @@ import Bidders from './bidder';
 import { userAddress } from './loginwallet';
 import { useSessionStorage } from 'usehooks-ts';
 import { useState } from 'react';
+import Contract from './contract';
 
 //const AuctionContractABI = abi;
 // const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
@@ -22,9 +23,6 @@ export default function Home() {
   const [address, setAddress] = useSessionStorage('address', userAddress);
   const [contract, setContract] = useSessionStorage('contract', auctionContract);
   const [bidders, setBidders] = useState([]);
-
-  const fairFee = String(contract.methods.fairFee().call({from: address}));
-  const testing = String(contract.methods.testing().call({from: address}));
 
   //let prov = Web3.providers.WebsocketProvider;
   // if(Web3.givenProvider != null){
@@ -38,11 +36,11 @@ export default function Home() {
       <p className='text-xl font-bold text-fuchsia-300'>SecureBid:</p>
       <h1 className='text-3xl font-bold text-fuchsia-300'>BLOCKTIONEER</h1>
       <Account address={address} setAddress={setAddress}/>
-      {/* <Contract contract={contract} setContract={setContract}/> */}
+      <Contract contract={contract} setContract={setContract}/>
       <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders}/>
       <Deployer address={address}/>
-      <p>Fair Fee: {fairFee}</p>
-      <p>Testing? {testing}</p>
+      {/* <p>Fair Fee: {fairFee}</p>
+      <p>Testing? {testing}</p> */}
       <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />
       {/* <p>contractAddress: {contractAddress}</p>
       <p>auctionContract.options.address: {auctionContract.options.address}</p> 
