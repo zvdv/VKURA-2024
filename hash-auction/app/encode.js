@@ -48,7 +48,7 @@ export default function Hasher(props) {
     
         setBidders([...bidders, new Bidder(address, bid, nonce, hashed)]);
         // Call contract to commit to hash
-        contract.methods.bid(hashed).send({from: address, value: 10});
+        //contract.methods.bid(hashed).send({from: address, value: 10});
 
         return {
             haash: hashed, 
@@ -66,6 +66,7 @@ export default function Hasher(props) {
         <form action={output}>
             <label htmlFor='bid'>Enter bid:</label>
             <input type='number' id='bid' name='bid' min={0} required />
+            <input type='hidden' id='address' name='address' value={address} pattern='0x[A-Za-z0-9]{40}' required /> {/* doesn't stop bid being submitted with empty address */}
             <input type='submit' value='Bid'/>
         </form>
         <p id='reply'></p>

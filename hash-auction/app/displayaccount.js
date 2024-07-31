@@ -1,6 +1,9 @@
-import React, { useEffect } from "react";
+'use server';
 
-export default function Account(props){
+import React from "react";
+import changeAccount from "./changeaccount";
+
+export default async function Account(props){
 
     // useEffect(() => {
     //     console.log(props);
@@ -23,7 +26,7 @@ export default function Account(props){
             document.getElementById("reply").innerHTML = "Please install Metamask wallet";
         }
     }
-
+    
     return(
         <div className="my-4">
             <p>Current address: {address}</p>

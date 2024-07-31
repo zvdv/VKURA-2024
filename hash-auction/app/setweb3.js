@@ -13,3 +13,5 @@ const auctionContract = new web3.eth.Contract(abi, contractAddress);
 // const fairFee = auctionContract.methods.fairFee().call();
 
 export {auctionContract};
+
+// would use server but then can't export object?

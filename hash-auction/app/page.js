@@ -35,8 +35,8 @@ export default function Home() {
     <div className="p-24">
       <p className='text-xl font-bold text-fuchsia-300'>SecureBid:</p>
       <h1 className='text-3xl font-bold text-fuchsia-300'>BLOCKTIONEER</h1>
-      <Account address={address} setAddress={setAddress}/>
-      <Contract contract={contract} setContract={setContract}/>
+      {/* <Account address={address} setAddress={setAddress}/> */}
+      {/* <Contract contract={contract} setContract={setContract}/> */}
       <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders}/>
       <Deployer address={address}/>
       {/* <p>Fair Fee: {fairFee}</p>

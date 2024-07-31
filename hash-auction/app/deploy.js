@@ -4,12 +4,10 @@ import abi from '../../artifacts/auction_abi.json';
 import bytecode from '../../artifacts/auction_bytecode.json';
 import { useSessionStorage } from 'usehooks-ts';
 
-const contract = new web3.eth.Contract(abi);
-contract.defaultChain = "sepolia";
-contract.options.data = "0x" + bytecode;
-contract.handleRevert = true;
-
-let auctioneerAddress;
+// const contract = new web3.eth.Contract(abi);
+// contract.defaultChain = "sepolia";
+// contract.options.data = "0x" + bytecode;
+// contract.handleRevert = true;
 
 async function deployContract(auctioneerAddress){
     let fairFee = document.getElementById('fairFee').value;
@@ -28,7 +26,7 @@ async function deployContract(auctioneerAddress){
 
     console.log("Successfully declared variables!");
 
-    const deployer = contract.deploy({arguments: [fairFee, bidPeriod, revealPeriod, claimWinnerPeriod, withdrawPeriod, testing]});
+    //const deployer = contract.deploy({arguments: [fairFee, bidPeriod, revealPeriod, claimWinnerPeriod, withdrawPeriod, testing]});
 
     console.log("Successfully created deployer!")
 
@@ -37,20 +35,21 @@ async function deployContract(auctioneerAddress){
 
     console.log("Successfully estimated gas!");
 
-    try {
-        console.log("In try.")
-        const tx = await deployer.send({
-            from: auctioneerAddress,
-            gas: gas,
-            gasPrice: 10000000000,
-            value: msgvalue,
-        });
-        console.log("Sent deploy!")
-        document.getElementById('reply').innerHTML = "Deployed at address: " + tx.options.address;
-    } catch (error) {
-        console.log(error);
-        document.getElementById('error').innerHTML = "Log: " + error;
-    }
+    // try {
+    //     console.log("In try.")
+    //     const tx = await deployer.send({
+    //         from: auctioneerAddress,
+    //         gas: gas,
+    //         gasPrice: 10000000000,
+    //         value: msgvalue,
+    //     });
+    //     console.log("Sent deploy!")
+    //     document.getElementById('reply').innerHTML = "Deployed at address: " + tx.options.address;
+    // } catch (error) {
+    //     console.log(error);
+    //     document.getElementById('error').innerHTML = "Log: " + error;
+    // }
+    
     //return tx.options.contractAddress;
 }
 
