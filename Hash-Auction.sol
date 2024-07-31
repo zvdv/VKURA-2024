@@ -37,6 +37,7 @@ contract Auction {
 
     constructor(uint _fairFee, uint bidPeriod, uint revealPeriod, /*uint claimWinnerPeriod,*/ uint _withdrawPeriod, bool _testing) payable {
         require(msg.value >= _fairFee, "Insufficient deposit.");
+        fairFee = _fairFee;
         auctioneerPaid = msg.value;
         auctioneerAddress = msg.sender;
         //auctioneerPublicKey = _auctioneerPublicKey;
