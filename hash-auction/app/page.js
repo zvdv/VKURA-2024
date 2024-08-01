@@ -1,17 +1,21 @@
-'use client';
+'use server';
 
 import React from 'react';
 // import Web3 from 'web3';
 // import abi from '../../artifacts/auction_abi.json';
-import web3, {auctionContract} from './setweb3';
+//import { web3, auctionContract} from './setweb3';
 import Hasher from './encode';
 import Deployer from './deploy';
 import Account from './displayaccount';
 import Bidders from './bidder';
 import { userAddress } from './loginwallet';
 import { useSessionStorage } from 'usehooks-ts';
-import { useState } from 'react';
+//import { useState } from 'react';
 import Contract from './contract';
+import Setup from './setweb3';
+//import { address, setAddress, contract, setContract, bidders, setBidders } from './setweb3';
+
+//const { address, setAddress, contract, setContract, bidders, setBidders } = Setup;
 
 //const AuctionContractABI = abi;
 // const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
@@ -19,12 +23,12 @@ import Contract from './contract';
 // const contractAddress = '0xa8d32ec71dc2bde11c3f9a58cc2be75a07462765'; //Most recent Sepolia deployed version
 // const auctionContract = new web3.eth.Contract(abi, contractAddress);
 
-export default function Home() {
+export default async function Home() {
   // const [address, setAddress] = useSessionStorage('address', '0x0000000000000000000000000000000000000000');
   // const [contract, setContract] = useSessionStorage('contract', auctionContract);
-  const [address, setAddress] = useState('0x0000000000000000000000000000000000000000');
-  const [contract, setContract] = useState(auctionContract);
-  const [bidders, setBidders] = useState([]);
+  // const [address, setAddress] = useState('0x0000000000000000000000000000000000000000');
+  // const [contract, setContract] = useState(auctionContract);
+  // const [bidders, setBidders] = useState([]);
 
   //let prov = Web3.providers.WebsocketProvider;
   // if(Web3.givenProvider != null){
@@ -37,13 +41,16 @@ export default function Home() {
     <div className="p-24">
       <p className='text-xl font-bold text-fuchsia-300'>SecureBid:</p>
       <h1 className='text-3xl font-bold text-fuchsia-300'>BLOCKTIONEER</h1>
-      <Account address={address} setAddress={setAddress}/>
+
+      <Setup />
+
+      {/* <Account address={address} setAddress={setAddress}/> */}
       {/* <Contract contract={contract} setContract={setContract}/> */}
-      <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders}/>
-      <Deployer address={address}/>
+      {/* <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders}/> */}
+      {/* <Deployer address={address}/> */}
       {/* <p>Fair Fee: {fairFee}</p>
       <p>Testing? {testing}</p> */}
-      <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />
+      {/* <Bidders key={bidders} bidders={bidders} setBidders={setBidders} /> */}
       {/* <p>contractAddress: {contractAddress}</p>
       <p>auctionContract.options.address: {auctionContract.options.address}</p> 
       The addresses do match.*/}
