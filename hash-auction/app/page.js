@@ -20,8 +20,10 @@ import Contract from './contract';
 // const auctionContract = new web3.eth.Contract(abi, contractAddress);
 
 export default function Home() {
-  const [address, setAddress] = useSessionStorage('address', userAddress);
-  const [contract, setContract] = useSessionStorage('contract', auctionContract);
+  // const [address, setAddress] = useSessionStorage('address', '0x0000000000000000000000000000000000000000');
+  // const [contract, setContract] = useSessionStorage('contract', auctionContract);
+  const [address, setAddress] = useState('0x0000000000000000000000000000000000000000');
+  const [contract, setContract] = useState(auctionContract);
   const [bidders, setBidders] = useState([]);
 
   //let prov = Web3.providers.WebsocketProvider;
@@ -35,7 +37,7 @@ export default function Home() {
     <div className="p-24">
       <p className='text-xl font-bold text-fuchsia-300'>SecureBid:</p>
       <h1 className='text-3xl font-bold text-fuchsia-300'>BLOCKTIONEER</h1>
-      {/* <Account address={address} setAddress={setAddress}/> */}
+      <Account address={address} setAddress={setAddress}/>
       {/* <Contract contract={contract} setContract={setContract}/> */}
       <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders}/>
       <Deployer address={address}/>
