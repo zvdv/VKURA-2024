@@ -43,7 +43,7 @@ export default function Account(props) {
         if (typeof window.ethereum !== "undefined") {
             setAddress(changeAccount());
         } else {
-            console.log("Please install Metamask wallet");
+            document.getElementById('reply').innerHTML = "Please install Metamask wallet";
         }
     }
 

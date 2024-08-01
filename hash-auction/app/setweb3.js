@@ -32,10 +32,11 @@ export default function Setup() {
     const [bidders, setBidders] = useState([]);
     return (
         <div>
-        <Account address={address} setAddress={setAddress}/>
-        {/* <Contract contract={contract} setContract={setContract}/> */}
-        {/* <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders}/>
-        <Deployer address={address}/> */}
+            <Account address={address} setAddress={setAddress} />
+            {/* <Contract contract={contract} setContract={setContract}/> */}
+            <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
+            <Deployer address={address} />
+            <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />
         </div>
     );
 }
