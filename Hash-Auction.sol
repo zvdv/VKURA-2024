@@ -4,6 +4,7 @@ pragma solidity ^0.8.25;
 
 contract Auction {
     bool public testing;
+    bool public tie;
 
     struct Bidder {
         //bool exists;
@@ -85,6 +86,9 @@ contract Auction {
             if (bids[bidders[i]].bid > winningBid){
                 winner = bidders[i];
                 winningBid = bids[bidders[i]].bid;
+            } else if (bids[bidders[i]].bid == winningBid) {
+                tie = true;
+                // Handle tie?
             }
         }
         bids[winner].paid -= winningBid; // Value of winning bid stays in contract for now
