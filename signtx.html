@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="module">
+            import { Web3 } from '/node_modules/web3';
+            const web3 = new Web3('http://localhost:3000/');
+            
+            console.log(web3.eth.accounts);
+            
+            //const signature = wallet.at(0).sign("Test Data"); // use wallet
+            
+            // fund account before sending following transaction ...
+            
+            // const receipt = await web3.eth.sendTransaction({ // internally sign transaction using wallet
+            //    from: wallet.at(0).address,
+            //    to: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+            //    value: 1
+            //    //....
+            // });
+            </script>
+    </head>
+    <body>
+        <h1>Testing account signing!</h1>
+        <script>
+            const accounts = window.ethereum.request({ method: "eth_requestAccounts" });
+            const wallet = web3.eth.accounts.wallet.add(accounts[0]);
+            console.log(wallet);
+        </script>
+    </body>
+</html>

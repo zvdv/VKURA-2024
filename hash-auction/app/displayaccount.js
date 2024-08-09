@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
+import { web3 } from "./setweb3";
 //import changeAccount from "./changeaccount";
 //import { MetaMaskSDK } from "@metamask/sdk"
 
@@ -41,7 +42,14 @@ export default function Account(props) {
 
     function change() {
         if (typeof window.ethereum !== "undefined") {
-            setAddress(changeAccount());
+            const account = changeAccount();
+            // account seems to be address when used in setAddress, but console logs 'object promise'
+            setAddress(account);
+            console.log("Type of account returned: " + typeof account);
+            console.log("What's inside? " + Object.keys(account));
+            console.log("Account returned: " + account);
+            let wallet = web3.eth.accounts.wallet.add(String(account));
+            console.log(wallet);
         } else {
             document.getElementById('reply').innerHTML = "Please install Metamask wallet";
         }
