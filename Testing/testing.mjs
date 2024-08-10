@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import abi from './artifacts/auction_abi.json' with {type: 'json'};
+import abi from '../artifacts/auction_abi.json' with {type: 'json'};
 
 const address = '0x98138Dc06475109F49B77060178fA1C4492e57F5';
 

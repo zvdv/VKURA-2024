@@ -36,20 +36,27 @@ export default function Account(props) {
         } catch (error) {
             console.error('Error getting accounts: ', error);
         } finally {
-            return accounts[0];
+            //return accounts[0];
+            console.log("Setting account...");
+            setAddress(accounts[0]);
+            web3.eth.defaultAccount = accounts[0];
+            // let wallet = web3.eth.accounts.wallet.add(String(accounts[0]));
+            // console.log(wallet);
+            console.log("Finally");
         }
     } // Using async/await in client component... will bring back the errors later? But didn't fetch accounts without await
 
     function change() {
         if (typeof window.ethereum !== "undefined") {
-            const account = changeAccount();
-            // account seems to be address when used in setAddress, but console logs 'object promise'
-            setAddress(account);
-            console.log("Type of account returned: " + typeof account);
-            console.log("What's inside? " + Object.keys(account));
-            console.log("Account returned: " + account);
-            let wallet = web3.eth.accounts.wallet.add(String(account));
-            console.log(wallet);
+            changeAccount();
+            // const account = changeAccount();
+            // // account seems to be address when used in setAddress, but console logs 'object promise'
+            // setAddress(account);
+            // console.log("Type of account returned: " + typeof account);
+            // console.log("What's inside? " + Object.keys(account));
+            // console.log("Account returned: " + account);
+            // let wallet = web3.eth.accounts.wallet.add(String(account));
+            // console.log(wallet);
         } else {
             document.getElementById('reply').innerHTML = "Please install Metamask wallet";
         }

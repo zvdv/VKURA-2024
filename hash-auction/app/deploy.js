@@ -1,19 +1,17 @@
+'use client'
+
 import React from 'react';
 import web3 from './setweb3';
-import abi from '../../artifacts/auction_abi.json';
-import bytecode from '../../artifacts/auction_bytecode.json';
 import { useSessionStorage } from 'usehooks-ts';
+import { contractToDeploy } from './setweb3';
 
-// const contract = new web3.eth.Contract(abi);
-// contract.defaultChain = "sepolia";
-// contract.options.data = "0x" + bytecode;
-// contract.handleRevert = true;
+const method = "eth_signTypedData_v4"
 
 async function deployContract(auctioneerAddress){
     let fairFee = document.getElementById('fairFee').value;
     let bidPeriod = document.getElementById('bidPeriod').value;
     let revealPeriod = document.getElementById('revealPeriod').value;
-    let claimWinnerPeriod = document.getElementById('claimWinnerPeriod').value;
+    //let claimWinnerPeriod = document.getElementById('claimWinnerPeriod').value;
     let withdrawPeriod = document.getElementById('withdrawPeriod').value;
     let testing;
     let radio = document.getElementsByName('testing');
@@ -26,29 +24,36 @@ async function deployContract(auctioneerAddress){
 
     console.log("Successfully declared variables!");
 
-    //const deployer = contract.deploy({arguments: [fairFee, bidPeriod, revealPeriod, claimWinnerPeriod, withdrawPeriod, testing]});
+    const deployer = contractToDeploy.deploy({arguments: [fairFee, bidPeriod, revealPeriod, withdrawPeriod, testing]});
 
     console.log("Successfully created deployer!")
 
-    //const gas = await deployer.estimateGas({from: auctioneerAddress});
+    // const gas = await deployer.estimateGas(function(err, gas){
+    //     console.log(gas);
+    // });
     const gas = 2000000;
+    //console.log("Successfully estimated gas!");
 
-    console.log("Successfully estimated gas!");
+    console.log(auctioneerAddress);
+    let tx;
 
-    // try {
-    //     console.log("In try.")
-    //     const tx = await deployer.send({
-    //         from: auctioneerAddress,
-    //         gas: gas,
-    //         gasPrice: 10000000000,
-    //         value: msgvalue,
-    //     });
-    //     console.log("Sent deploy!")
-    //     document.getElementById('reply').innerHTML = "Deployed at address: " + tx.options.address;
-    // } catch (error) {
-    //     console.log(error);
-    //     document.getElementById('error').innerHTML = "Log: " + error;
-    // }
+    // Sign transaction!
+    console.log(method);
+
+    try {
+        console.log("In try")
+        tx = await deployer.send({
+            from: auctioneerAddress,
+            gas: gas,
+            gasPrice: 10000000000,
+            value: msgvalue,
+        });
+        console.log("Sent deploy!")
+        document.getElementById('reply').innerHTML = "Deployed at address: " + tx.options.address;
+    } catch (error) {
+        console.log(error);
+        document.getElementById('error').innerHTML = "Log: " + error;
+    }
     
     //return tx.options.contractAddress;
 }
@@ -67,9 +72,9 @@ export default function Deployer({address}){
             <label htmlFor='revealPeriod'>Revealing period: </label>
             <input type='number' id='revealPeriod' name='revealPeriod' min={0} required />
             <br />
-            <label htmlFor='claimWinnerPeriod'>Claiming winner period: </label>
+            {/* <label htmlFor='claimWinnerPeriod'>Claiming winner period: </label>
             <input type='number' id='claimWinnerPeriod' name='claimWinnerPeriod' min={0} required />
-            <br />
+            <br /> */}
             <label htmlFor='withdrawPeriod'>Withdrawing period:</label>
             <input type='number' id='withdrawPeriod' name='withdrawPeriod' min={0} required />
             <br />
