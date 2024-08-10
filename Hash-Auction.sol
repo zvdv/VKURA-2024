@@ -88,7 +88,7 @@ contract Auction {
                 winningBid = bids[bidders[i]].bid;
             } else if (bids[bidders[i]].bid == winningBid) {
                 tie = true;
-                // Handle tie?
+                // Keep first bidder, pass over tie (do nothing)
             }
         }
         bids[winner].paid -= winningBid; // Value of winning bid stays in contract for now
@@ -99,7 +99,7 @@ contract Auction {
 
     function withdraw() public {
         require(winnerClaimed && block.number < withdrawEnd || testing, "Outside withdrawal period.");
-        require(bids[msg.sender].commit.length != 0, "Bidder does not exist.");
+        require(bids[msg.sender].validCommit == true, "Bidder forfeits deposit by not revealing.");
         uint amount = bids[msg.sender].paid;
         bids[msg.sender].paid = 0;
         payable(msg.sender).transfer(amount);
