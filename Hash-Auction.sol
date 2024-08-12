@@ -107,7 +107,7 @@ contract Auction {
 
     function endAuction() public {
         require(block.number > withdrawEnd || testing, "Too early to close auction.");
-        uint amount = auctioneerPaid;
+        uint amount = auctioneerPaid + winningBid;
         auctioneerPaid = 0;
         payable(auctioneerAddress).transfer(amount);
     }
