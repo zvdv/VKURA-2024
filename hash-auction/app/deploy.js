@@ -5,7 +5,9 @@ import web3 from './setweb3';
 import { useSessionStorage } from 'usehooks-ts';
 import { contractToDeploy } from './setweb3';
 
-export default function Deployer({address}){
+export default function Deployer(props){
+    const {address, setContract} = props;
+
     async function deployContract(formData){
         const fairFee = +formData.get('fairFee');
         const bidPeriod = +formData.get('bidPeriod');
@@ -72,6 +74,7 @@ export default function Deployer({address}){
                 ]
             });
             document.getElementById('reply').innerHTML = "Successfully deployed at hash " + tx;
+            setContract("0x"); // Need to get address from transaction hash
         } catch(error) {
             console.error("Error deploying: " + error);
             document.getElementById('error').innerHTML = "Error:" + error;
