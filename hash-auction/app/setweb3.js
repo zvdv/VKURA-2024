@@ -37,7 +37,7 @@ export default function Setup() {
     return (
         <div>
             <Account address={address} setAddress={setAddress} />
-            <Contract contract={contract} setContract={setContract}/>
+            {/* <Contract contract={contract} setContract={setContract}/> */}
             <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
             <Deployer address={address} setContract={setContract} />
             <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />

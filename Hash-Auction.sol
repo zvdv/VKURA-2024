@@ -26,8 +26,8 @@ contract Auction {
     uint public bidPeriodEnd; // Number of blocks
     uint public revealPeriodEnd;
     //uint public claimWinnerEnd;
-    uint public withdrawEnd;
-    uint public withdrawPeriod;
+    // uint public withdrawEnd;
+    // uint public withdrawPeriod;
     //uint public maxBidders;
     //uint public maxBid;
 
@@ -36,7 +36,7 @@ contract Auction {
     bool public winnerClaimed = false;
     event winnerSet(address indexed _winner);
 
-    constructor(uint _fairFee, uint bidPeriod, uint revealPeriod, /*uint claimWinnerPeriod,*/ uint _withdrawPeriod, bool _testing) payable {
+    constructor(uint _fairFee, uint bidPeriod, uint revealPeriod, /*uint claimWinnerPeriod, uint _withdrawPeriod,*/ bool _testing) payable {
         require(msg.value >= _fairFee, "Insufficient deposit.");
         fairFee = _fairFee;
         auctioneerPaid = msg.value;
@@ -46,7 +46,7 @@ contract Auction {
         revealPeriodEnd = bidPeriodEnd + revealPeriod;
         //claimWinnerEnd = revealPeriodEnd + claimWinnerPeriod;
         //withdrawEnd = claimWinnerEnd + withdrawPeriod;
-        withdrawPeriod = _withdrawPeriod;
+        //withdrawPeriod = _withdrawPeriod;
         //maxBidders = _maxBidders;
         testing = _testing;
     }
@@ -93,12 +93,12 @@ contract Auction {
         }
         bids[winner].paid -= winningBid; // Value of winning bid stays in contract for now
         winnerClaimed = true;
-        withdrawEnd = block.number + withdrawPeriod;
+        //withdrawEnd = block.number + withdrawPeriod;
         emit winnerSet(winner);
     }
 
     function withdraw() public {
-        require(winnerClaimed && block.number < withdrawEnd || testing, "Outside withdrawal period.");
+        require(winnerClaimed || testing, "Too early to withdraw.");
         require(bids[msg.sender].validCommit == true, "Bidder forfeits deposit by not revealing.");
         uint amount = bids[msg.sender].paid;
         bids[msg.sender].paid = 0;
@@ -106,7 +106,7 @@ contract Auction {
     }
 
     function endAuction() public {
-        require(block.number > withdrawEnd || testing, "Too early to close auction.");
+        require(winnerClaimed || testing, "Too early to close auction.");
         uint amount = auctioneerPaid + winningBid;
         auctioneerPaid = 0;
         payable(auctioneerAddress).transfer(amount);
