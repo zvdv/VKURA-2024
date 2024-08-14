@@ -32,14 +32,17 @@ export { auctionContract };
 
 export default function Setup() {
     const [address, setAddress] = useState('0x0000000000000000000000000000000000000000');
-    const [contract, setContract] = useState();
+    const [contract, setContract] = useState('0x0000000000000000000000000000000000000000');
     const [bidders, setBidders] = useState([]);
     return (
         <div>
             <Account address={address} setAddress={setAddress} />
-            {/* <Contract contract={contract} setContract={setContract}/> */}
-            <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
+            <Contract contract={contract} setContract={setContract}/>
             <Deployer address={address} setContract={setContract} />
+            {contract == '0x0000000000000000000000000000000000000000' ?
+            <></> :
+            <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
+            }
             <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />
         </div>
     );

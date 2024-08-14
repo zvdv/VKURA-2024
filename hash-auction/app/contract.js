@@ -1,8 +1,6 @@
-'use server';
+import React from 'react';
 
-import React from "react";
-
-export default async function Contract(props){
+export default function Contract(props){
 
     // useEffect(() => {
     //     console.log(props);
@@ -26,8 +24,9 @@ export default async function Contract(props){
 
     return(
         <div>
-            <p>Current contract address: {contract.options.address}</p>
-            {/* <p>{getVars()}</p> */}
+            {contract == '0x0000000000000000000000000000000000000000' ?
+            <p>Please deploy auction contract:</p> :
+            <p>Current contract address: {contract}</p>}
         </div>
     )
 }

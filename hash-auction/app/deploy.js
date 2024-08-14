@@ -46,7 +46,6 @@ export default function Deployer(props) {
             //console.log("Value: " + msgvalue + " type " + typeof msgvalue);
             console.log("value hex: " + valuehex);
             //console.log("data: " + data);
-            console.log("gasPrice hex: " + gasPricehex);
 
             tx = await window.ethereum.request({
                 "method": "eth_sendTransaction",
@@ -62,7 +61,8 @@ export default function Deployer(props) {
                 ]
             });
             document.getElementById('reply').innerHTML = "Successfully deployed at hash " + tx;
-            setContract("0x"); // Need to get address from transaction hash
+            const contractAddress = web3.eth.getTransactionReceipt(tx).contractAddress;
+            setContract(contractAddress);
         } catch (error) {
             console.error("Error deploying: " + error);
             document.getElementById('error').innerHTML = "Error:" + error;
@@ -104,10 +104,10 @@ export default function Deployer(props) {
                 <input type='radio' id='false' name='testing' value={false} required />
                 <label htmlFor='false'>No</label>
                 <br />
-                <label htmlFor='weivalue'>Value (wei): </label>
+                <label htmlFor='weivalue'>Value (wei) must be greater than or equal to the deposit: </label>
                 <input type='number' id='weivalue' name='weivalue' required />
                 <br />
-                <input type='submit' />
+                <input type='submit' value='Deploy' />
             </form>
             <p id='reply'></p>
             <p id='error'></p>
