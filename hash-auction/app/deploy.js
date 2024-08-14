@@ -12,20 +12,12 @@ export default function Deployer(props){
         const fairFee = +formData.get('fairFee');
         const bidPeriod = +formData.get('bidPeriod');
         const revealPeriod = +formData.get('revealPeriod');
-        const withdrawPeriod = +formData.get('withdrawPeriod');
         const testing = formData.get('testing');
-        // let testing;
-        // let radio = document.getElementsByName('testing');
-        // if (radio[0].checked){
-        //     testing = radio[0].value;
-        // } else {
-        //     testing = radio[1].value;
-        // }
         const msgvalue = +formData.get('weivalue');
     
         console.log("Successfully declared variables!");
     
-        const deployer = contractToDeploy.deploy({arguments: [fairFee, bidPeriod, revealPeriod, withdrawPeriod, testing]});
+        const deployer = contractToDeploy.deploy({arguments: [fairFee, bidPeriod, revealPeriod, testing]});
     
         console.log("Successfully created deployer!")
     
@@ -51,7 +43,6 @@ export default function Deployer(props){
             // console.log("Fair fee: " + fairFee + " type " + typeof fairFee);
             // console.log("Bid period: " + bidPeriod + " type " + typeof bidPeriod);
             // console.log("Reveal period: " + revealPeriod + " type " + typeof revealPeriod);
-            // console.log("Withdraw period: " + withdrawPeriod + " type " + typeof withdrawPeriod);
             // console.log("Gas: " + gas + " type " + typeof gas);
             // console.log("from: " + address);
             console.log("gas hex: " + gashex);
@@ -108,12 +99,6 @@ export default function Deployer(props){
             <br />
             <label htmlFor='revealPeriod'>Revealing period: </label>
             <input type='number' id='revealPeriod' name='revealPeriod' min={0} required />
-            <br />
-            {/* <label htmlFor='claimWinnerPeriod'>Claiming winner period: </label>
-            <input type='number' id='claimWinnerPeriod' name='claimWinnerPeriod' min={0} required />
-            <br /> */}
-            <label htmlFor='withdrawPeriod'>Withdrawing period:</label>
-            <input type='number' id='withdrawPeriod' name='withdrawPeriod' min={0} required />
             <br />
             <p>Are you testing? (Will ignore block periods if true.)</p>
             <input type='radio' id='true' name='testing' value={true} required />
