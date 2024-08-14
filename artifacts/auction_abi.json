@@ -17,11 +17,6 @@
 				"type": "uint256"
 			},
 			{
-				"internalType": "uint256",
-				"name": "_withdrawPeriod",
-				"type": "uint256"
-			},
-			{
 				"internalType": "bool",
 				"name": "_testing",
 				"type": "bool"
@@ -281,32 +276,6 @@
 		"name": "withdraw",
 		"outputs": [],
 		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "withdrawEnd",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "withdrawPeriod",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
 		"type": "function"
 	}
 ]
