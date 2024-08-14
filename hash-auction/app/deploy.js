@@ -5,38 +5,35 @@ import web3 from './setweb3';
 import { useSessionStorage } from 'usehooks-ts';
 import { contractToDeploy } from './setweb3';
 
-export default function Deployer(props){
-    const {address, setContract} = props;
+export default function Deployer(props) {
+    const { address, setContract } = props;
 
-    async function deployContract(formData){
+    async function deployContract(formData) {
         const fairFee = +formData.get('fairFee');
         const bidPeriod = +formData.get('bidPeriod');
         const revealPeriod = +formData.get('revealPeriod');
         const testing = formData.get('testing');
         const msgvalue = +formData.get('weivalue');
-    
+
         console.log("Successfully declared variables!");
-    
-        const deployer = contractToDeploy.deploy({arguments: [fairFee, bidPeriod, revealPeriod, testing]});
-    
-        console.log("Successfully created deployer!")
-    
-        // const gas = await deployer.estimateGas(function(err, gas){
-        //     console.log(gas);
-        // });
-        // // // // 1449000 estimate from Remix
+
+        const deployer = contractToDeploy.deploy({ arguments: [fairFee, bidPeriod, revealPeriod, testing] });
+
+        console.log("Successfully created deployer!");
+
+        //          1449000 estimate from Remix
         const gas = 2000000; // Could make this user-settable
-        const gashex = "0x"+gas.toString(16);
-        const gasPrice = 2000000000;
-        const gasPricehex = "0x"+gasPrice.toString(16);
-        const valuehex = "0x"+msgvalue.toString(16);
-    
+        const gashex = "0x" + gas.toString(16);
+        //const gasPrice = 20000000000;
+        //const gasPricehex = "0x" + gasPrice.toString(16);
+        const valuehex = "0x" + msgvalue.toString(16);
+
         console.log(address);
         let tx;
-    
+
         // Sign transaction!
         const data = deployer.encodeABI();
-    
+
         try {
             console.log("In try");
             // console.log("Testing: " + testing + " type " + typeof testing);
@@ -50,27 +47,27 @@ export default function Deployer(props){
             console.log("value hex: " + valuehex);
             //console.log("data: " + data);
             console.log("gasPrice hex: " + gasPricehex);
-            
+
             tx = await window.ethereum.request({
                 "method": "eth_sendTransaction",
                 "params": [
-                  {
-                    // No "to" because contract creation
-                    "from": address,
-                    "gas": gashex,
-                    "value": valuehex,
-                    "data": data,
-                    "gasPrice": gasPricehex
-                  }
+                    {
+                        // No "to" because contract creation
+                        "from": address,
+                        "gas": gashex,
+                        "value": valuehex,
+                        "data": data,
+                        // "gasPrice": gasPricehex
+                    }
                 ]
             });
             document.getElementById('reply').innerHTML = "Successfully deployed at hash " + tx;
             setContract("0x"); // Need to get address from transaction hash
-        } catch(error) {
+        } catch (error) {
             console.error("Error deploying: " + error);
             document.getElementById('error').innerHTML = "Error:" + error;
         }
-    
+
         // try {
         //     console.log("In try");
         //     tx = await deployer.send({
@@ -85,35 +82,35 @@ export default function Deployer(props){
         //     console.log(error);
         //     document.getElementById('error').innerHTML = "Log: " + error;
         // }
-        
+
         //return tx.options.contractAddress;
     }
     return (
         <div className='float-left my-4'>
-        <form action={deployContract}>
-            <label htmlFor='fairFee'>Minimum deposit for bidders and seller/deployer (wei): </label>
-            <input type='number' id='fairFee' name='fairFee' min={0} required />
-            <p>Please choose the number of blocks for each stage of the auction. Keep in mind 5 blocks on the Sepolia Testnet is about 1 minute.</p>
-            <label htmlFor='bidPeriod'>Bidding period: </label>
-            <input type='number' id='bidPeriod' name='bidPeriod' min={0} required />
-            <br />
-            <label htmlFor='revealPeriod'>Revealing period: </label>
-            <input type='number' id='revealPeriod' name='revealPeriod' min={0} required />
-            <br />
-            <p>Are you testing? (Will ignore block periods if true.)</p>
-            <input type='radio' id='true' name='testing' value={true} required />
-            <label htmlFor='true'>Yes</label>
-            <br />
-            <input type='radio' id='false' name='testing' value={false} required />
-            <label htmlFor='false'>No</label>
-            <br />
-            <label htmlFor='weivalue'>Value (wei): </label>
-            <input type='number' id='weivalue' name='weivalue' required />
-            <br />
-            <input type='submit' />
-        </form>
-        <p id='reply'></p>
-        <p id='error'></p>
+            <form action={deployContract}>
+                <label htmlFor='fairFee'>Minimum deposit for bidders and seller/deployer (wei): </label>
+                <input type='number' id='fairFee' name='fairFee' min={0} required />
+                <p>Please choose the number of blocks for each stage of the auction. Keep in mind 5 blocks on the Sepolia Testnet is about 1 minute.</p>
+                <label htmlFor='bidPeriod'>Bidding period: </label>
+                <input type='number' id='bidPeriod' name='bidPeriod' min={0} required />
+                <br />
+                <label htmlFor='revealPeriod'>Revealing period: </label>
+                <input type='number' id='revealPeriod' name='revealPeriod' min={0} required />
+                <br />
+                <p>Are you testing? (Will ignore block periods if true.)</p>
+                <input type='radio' id='true' name='testing' value={true} required />
+                <label htmlFor='true'>Yes</label>
+                <br />
+                <input type='radio' id='false' name='testing' value={false} required />
+                <label htmlFor='false'>No</label>
+                <br />
+                <label htmlFor='weivalue'>Value (wei): </label>
+                <input type='number' id='weivalue' name='weivalue' required />
+                <br />
+                <input type='submit' />
+            </form>
+            <p id='reply'></p>
+            <p id='error'></p>
         </div>
     )
 }
