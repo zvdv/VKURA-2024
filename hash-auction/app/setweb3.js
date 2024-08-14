@@ -37,12 +37,13 @@ export default function Setup() {
     return (
         <div>
             <Account address={address} setAddress={setAddress} />
-            <Contract contract={contract} setContract={setContract}/>
+            <Contract contract={contract} setContract={setContract} />
             <Deployer address={address} setContract={setContract} />
-            {contract == '0x0000000000000000000000000000000000000000' ?
+            {/* {contract == '0x0000000000000000000000000000000000000000' ?
             <></> :
             <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
-            }
+            } */}
+            <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
             <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />
         </div>
     );

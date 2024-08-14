@@ -6,27 +6,21 @@
 @import 'tailwindcss/utilities';
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-hex: #000000;
+  --background-hex: #cdf4ff;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} */
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: var(--foreground-hex);
+  background: var(--background-hex);
 }
 
 @layer utilities {
@@ -50,13 +44,13 @@ input[type=text], input[type=number] {
 }
 
 button, input[type=submit] {
-  background-color: #f0abfc;
+  background-color: #2dc0da;
   border-radius: 25px;
   border: solid;
-  border-color: #701a75;
+  border-color: #004aad;
   padding: 5px 10px;
   cursor: pointer;
-  color: #701a75;
+  color: #004aad;
 }
 
 /* input:invalid {
