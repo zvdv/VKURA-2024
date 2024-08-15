@@ -41,7 +41,7 @@ export default function Setup() {
         <div>
             {isClient ? <Account address={address} setAddress={setAddress} /> : <div className='my-4 p-2 w-fit border-2 border-turquoise-deep rounded-lg'><p>Loading account...</p></div>}
             <Contract contract={contract} setContract={setContract} />
-            <Deployer address={address} setContract={setContract} />
+            <Deployer address={address} contract={contract} setContract={setContract} />
             {/* {contract == '0x0000000000000000000000000000000000000000' ?
             <></> :
             <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />

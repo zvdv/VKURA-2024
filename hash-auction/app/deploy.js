@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import Web3 from 'web3';
 //import web3 from './setweb3';
 import { useSessionStorage } from 'usehooks-ts';
@@ -12,10 +12,7 @@ web3.handleRevert = true;
 // for some reason, web3.eth is undefined if I use the web3 that I import from setweb3, but it is defined when I make a new web3
 
 export default function Deployer(props) {
-    if (typeof web3 == "undefined"){
-        return(<p>web3 is undefined 1</p>)
-    }
-    const { address, setContract } = props;
+    const { address, contract, setContract } = props;
 
     async function deployContract(formData) {
         const fairFee = +formData.get('fairFee');
@@ -40,16 +37,8 @@ export default function Deployer(props) {
         console.log(address);
         let tx;
 
-        // Sign transaction!
         const data = deployer.encodeABI();
-        if (typeof web3 == "undefined"){
-            console.log("web3 is undefined");
-        } else if (typeof web3.eth == "undefined"){
-            console.log("web3.eth is undefined");
-        } else {
-            console.log("Both are defined");
-        }
-        //return(<p>web3 is defined</p>)
+        
         try {
             tx = "0xb117d834cc860898c606541a2db6616d0265e90f78fb1029810f1b2da9d84961";
             // tx = await window.ethereum.request({
@@ -73,6 +62,11 @@ export default function Deployer(props) {
             document.getElementById('error').innerHTML = "Error:" + error;
         }
     }
+
+    if (contract != "0x0000000000000000000000000000000000000000"){
+        return(<></>);
+    }
+
     return (
         <div className='float-left my-4'>
             <form action={deployContract}>
