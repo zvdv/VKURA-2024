@@ -1,4 +1,5 @@
-import React from 'react';
+'use client'
+import React, {useEffect} from 'react';
 
 export default function Contract(props){
 
@@ -7,6 +8,11 @@ export default function Contract(props){
     // });
 
     const {contract, setContract} = props;
+
+    useEffect(() => {
+        console.log("Type of contract:", typeof contract);
+        console.log("Value of contract:", contract);
+    }, [contract]);
 
     // async function getVars(){
     //     let fairFee;

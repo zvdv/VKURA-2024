@@ -1,11 +1,20 @@
 'use client'
 
 import React from 'react';
-import web3 from './setweb3';
+import Web3 from 'web3';
+//import web3 from './setweb3';
 import { useSessionStorage } from 'usehooks-ts';
 import { contractToDeploy } from './setweb3';
 
+const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
+web3.eth.handleRevert = true;
+web3.handleRevert = true;
+// for some reason, web3.eth is undefined if I use the web3 that I import from setweb3, but it is defined when I make a new web3
+
 export default function Deployer(props) {
+    if (typeof web3 == "undefined"){
+        return(<p>web3 is undefined 1</p>)
+    }
     const { address, setContract } = props;
 
     async function deployContract(formData) {
@@ -33,57 +42,36 @@ export default function Deployer(props) {
 
         // Sign transaction!
         const data = deployer.encodeABI();
-
+        if (typeof web3 == "undefined"){
+            console.log("web3 is undefined");
+        } else if (typeof web3.eth == "undefined"){
+            console.log("web3.eth is undefined");
+        } else {
+            console.log("Both are defined");
+        }
+        //return(<p>web3 is defined</p>)
         try {
-            console.log("In try");
-            // console.log("Testing: " + testing + " type " + typeof testing);
-            // console.log("Fair fee: " + fairFee + " type " + typeof fairFee);
-            // console.log("Bid period: " + bidPeriod + " type " + typeof bidPeriod);
-            // console.log("Reveal period: " + revealPeriod + " type " + typeof revealPeriod);
-            // console.log("Gas: " + gas + " type " + typeof gas);
-            // console.log("from: " + address);
-            console.log("gas hex: " + gashex);
-            //console.log("Value: " + msgvalue + " type " + typeof msgvalue);
-            console.log("value hex: " + valuehex);
-            //console.log("data: " + data);
-
-            tx = await window.ethereum.request({
-                "method": "eth_sendTransaction",
-                "params": [
-                    {
-                        // No "to" because contract creation
-                        "from": address,
-                        "gas": gashex,
-                        "value": valuehex,
-                        "data": data,
-                        // "gasPrice": gasPricehex
-                    }
-                ]
-            });
-            document.getElementById('reply').innerHTML = "Successfully deployed at hash " + tx;
-            const contractAddress = web3.eth.getTransactionReceipt(tx).contractAddress;
+            tx = "0xb117d834cc860898c606541a2db6616d0265e90f78fb1029810f1b2da9d84961";
+            // tx = await window.ethereum.request({
+            //     "method": "eth_sendTransaction",
+            //     "params": [
+            //         {
+            //             // No "to" because contract creation
+            //             "from": address,
+            //             "gas": gashex,
+            //             "value": valuehex,
+            //             "data": data,
+            //             // "gasPrice": gasPricehex
+            //         }
+            //     ]
+            // });
+            // document.getElementById('reply').innerHTML = "Successfully deployed at hash " + tx;
+            const contractAddress = (await web3.eth.getTransactionReceipt(tx)).contractAddress;
             setContract(contractAddress);
         } catch (error) {
             console.error("Error deploying: " + error);
             document.getElementById('error').innerHTML = "Error:" + error;
         }
-
-        // try {
-        //     console.log("In try");
-        //     tx = await deployer.send({
-        //         from: address,
-        //         gas: gas,
-        //         gasPrice: 10000000000,
-        //         value: msgvalue,
-        //     });
-        //     console.log("Sent deploy!")
-        //     document.getElementById('reply').innerHTML = "Deployed at address: " + tx.options.address;
-        // } catch (error) {
-        //     console.log(error);
-        //     document.getElementById('error').innerHTML = "Log: " + error;
-        // }
-
-        //return tx.options.contractAddress;
     }
     return (
         <div className='float-left my-4'>
