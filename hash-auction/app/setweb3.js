@@ -30,7 +30,7 @@ export { auctionContract };
 
 export default function Setup() {
     const [address, setAddress] = useState('0x0000000000000000000000000000000000000000');
-    const [contract, setContract] = useState('0x0000000000000000000000000000000000000000');
+    const [contract, setContract] = useState('0x54AdC603e19517b31bF9DE17C18A9431b586EEf3'); // Set this back to default when done testing!
     const [bidders, setBidders] = useState([]);
     const [isClient, setIsClient] = useState(false);
     useEffect(() => {

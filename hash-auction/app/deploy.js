@@ -27,11 +27,8 @@ export default function Deployer(props) {
 
         console.log("Successfully created deployer!");
 
-        //          1449000 estimate from Remix
-        const gas = 2000000; // Could make this user-settable
+        const gas = 2000000; //1449000 estimate from Remix
         const gashex = "0x" + gas.toString(16);
-        //const gasPrice = 20000000000;
-        //const gasPricehex = "0x" + gasPrice.toString(16);
         const valuehex = "0x" + msgvalue.toString(16);
 
         console.log(address);
