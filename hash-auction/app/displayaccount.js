@@ -20,12 +20,17 @@ import { web3 } from "./setweb3";
 // const getAccounts = ethereum.request({ method: "eth_requestAccounts", params: [] });
 
 export default function Account(props) {
+    if (typeof window.ethereum == "undefined") {
+        return(
+            <div className="my-4 p-2 w-fit border-2 border-turquoise-deep rounded-lg">
+                <p>Please connect to MetaMask wallet.</p>
+            </div>
+        )
+    }
 
-    const [isClient, setIsClient] = useState(false);
+    changeAccount();
 
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
+    window.ethereum.on("accountsChanged", changeAccount);
 
     const { address, setAddress } = props;
 
@@ -36,29 +41,9 @@ export default function Account(props) {
         } catch (error) {
             console.error('Error getting accounts: ', error);
         } finally {
-            //return accounts[0];
             console.log("Setting account...");
             setAddress(accounts[0]);
             web3.eth.defaultAccount = accounts[0];
-            // let wallet = web3.eth.accounts.wallet.add(String(accounts[0]));
-            // console.log(wallet);
-            console.log("Finally");
-        }
-    } // Using async/await in client component... will bring back the errors later? But didn't fetch accounts without await
-
-    function change() {
-        if (typeof window.ethereum !== "undefined") {
-            changeAccount();
-            // const account = changeAccount();
-            // // account seems to be address when used in setAddress, but console logs 'object promise'
-            // setAddress(account);
-            // console.log("Type of account returned: " + typeof account);
-            // console.log("What's inside? " + Object.keys(account));
-            // console.log("Account returned: " + account);
-            // let wallet = web3.eth.accounts.wallet.add(String(account));
-            // console.log(wallet);
-        } else {
-            document.getElementById('reply').innerHTML = "Please install Metamask wallet";
         }
     }
 
@@ -69,16 +54,9 @@ export default function Account(props) {
     }, [address]);
 
     return (
-        <div className="my-4">
-            {
-                isClient ?
-                    <div>
-                        <p>Current address: {address}</p>
-                        <button id='account' onClick={change}>Set Account</button>
-                        <p id='reply'></p>
-                    </div>
-                    : <p>Loading...</p>
-            }
+        <div className="my-4 p-2 w-fit border-2 border-turquoise-deep rounded-lg">
+            <p>Current address: {address}</p>
+            {/* <button id='account' onClick={change}>Set Account</button> */}
         </div>
     )
 }

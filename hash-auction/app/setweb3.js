@@ -3,7 +3,7 @@
 // For setting up things that work on client
 
 import Web3 from 'web3';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Hasher from './encode';
 import Deployer from './deploy';
 import Account from './displayaccount';
@@ -28,15 +28,18 @@ const auctionContract = new web3.eth.Contract(abi, contractAddress);
 // const fairFee = auctionContract.methods.fairFee().call();
 export { auctionContract };
 
-// if use server can't export object
-
 export default function Setup() {
     const [address, setAddress] = useState('0x0000000000000000000000000000000000000000');
     const [contract, setContract] = useState('0x0000000000000000000000000000000000000000');
     const [bidders, setBidders] = useState([]);
+    const [isClient, setIsClient] = useState(false);
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
     return (
         <div>
-            <Account address={address} setAddress={setAddress} />
+            {isClient ? <Account address={address} setAddress={setAddress} /> : <p>Loading account...</p>}
             <Contract contract={contract} setContract={setContract} />
             <Deployer address={address} setContract={setContract} />
             {/* {contract == '0x0000000000000000000000000000000000000000' ?
