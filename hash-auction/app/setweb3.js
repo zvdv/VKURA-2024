@@ -39,7 +39,7 @@ export default function Setup() {
 
     return (
         <div>
-            {isClient ? <Account address={address} setAddress={setAddress} /> : <p>Loading account...</p>}
+            {isClient ? <Account address={address} setAddress={setAddress} /> : <div className='my-4 p-2 w-fit border-2 border-turquoise-deep rounded-lg'><p>Loading account...</p></div>}
             <Contract contract={contract} setContract={setContract} />
             <Deployer address={address} setContract={setContract} />
             {/* {contract == '0x0000000000000000000000000000000000000000' ?

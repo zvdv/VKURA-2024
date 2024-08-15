@@ -23,9 +23,9 @@ export default function Contract(props){
     // }
 
     return(
-        <div>
+        <div className='p-2 w-fit border-2 border-turquoise-deep rounded-lg'>
             {contract == '0x0000000000000000000000000000000000000000' ?
-            <p>Please deploy auction contract:</p> :
+            <p>No contract deployed.</p> :
             <p>Current contract address: {contract}</p>}
         </div>
     )

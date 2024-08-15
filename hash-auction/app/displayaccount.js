@@ -38,12 +38,11 @@ export default function Account(props) {
         let accounts = [];
         try {
             accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-        } catch (error) {
-            console.error('Error getting accounts: ', error);
-        } finally {
             console.log("Setting account...");
             setAddress(accounts[0]);
             web3.eth.defaultAccount = accounts[0];
+        } catch (error) {
+            console.error('Error getting accounts: ', error);
         }
     }
 
