@@ -11,6 +11,7 @@ import Bidders from './bidder';
 import Contract from './contract';
 import abi from '../../artifacts/auction_abi.json';
 import bytecode from '../../artifacts/auction_bytecode.json';
+import Reveal from './reveal';
 
 const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 web3.eth.handleRevert = true;
@@ -47,6 +48,7 @@ export default function Setup() {
             <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
             } */}
             <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
+            <Reveal address={address} />
             <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />
         </div>
     );

@@ -49,13 +49,14 @@ export default function Hasher(props) {
     return (
         <div className='float-left my-4'>
             <form action={hash}>
-                <label htmlFor='bid'>Enter bid (wei):</label>
+                <label htmlFor='bid'>Enter bid (wei): </label>
                 <input type='number' id='bid' name='bid' min={0} required />
                 <br />
                 <p>Please choose a message value (in SepoliaETH) that is greater than or equal to both your bid and the fairness deposit.</p>
                 <p>You may be prevented from withdrawing your funds if your deposit is less than your bid.</p>
-                <label htmlFor='value'>Value (wei):</label>
+                <label htmlFor='value'>Value (wei): </label>
                 <input type='number' id='value' name='value' min={0} required />
+                <br />
                 {/* <input type='hidden' id='address' name='address' value={address} pattern='0x[A-Za-z0-9]{40}' required /> doesn't stop bid being submitted with empty address */}
                 <input type='submit' value='Bid' />
             </form>
