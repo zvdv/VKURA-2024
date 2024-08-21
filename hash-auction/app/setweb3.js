@@ -48,7 +48,7 @@ export default function Setup() {
             <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
             } */}
             <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
-            <Reveal address={address} />
+            <Reveal address={address} contract={contract} />
             <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />
         </div>
     );
