@@ -52,9 +52,9 @@ export default function Setup() {
             } */}
             <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
             <Reveal address={address} contract={contract} />
-            <ClaimWinner address={address} />
-            <Withdraw address={address} />
-            <EndAuction address={address} />
+            <ClaimWinner address={address} contract={contract} />
+            <Withdraw address={address} contract={contract} />
+            <EndAuction address={address} contract={contract} />
             <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />
         </div>
     );
