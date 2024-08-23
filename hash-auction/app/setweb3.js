@@ -12,6 +12,9 @@ import Contract from './contract';
 import abi from '../../artifacts/auction_abi.json';
 import bytecode from '../../artifacts/auction_bytecode.json';
 import Reveal from './reveal';
+import ClaimWinner from './claimwinner';
+import Withdraw from './withdraw';
+import EndAuction from './endauction';
 
 const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 web3.eth.handleRevert = true;
@@ -49,6 +52,9 @@ export default function Setup() {
             } */}
             <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
             <Reveal address={address} contract={contract} />
+            <ClaimWinner address={address} />
+            <Withdraw address={address} />
+            <EndAuction address={address} />
             <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />
         </div>
     );
