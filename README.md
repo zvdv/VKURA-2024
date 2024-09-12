@@ -21,7 +21,19 @@ There are several phases of the decentralised auction:
 
 In order to interact with the blockchain, you will need Ethereum wallet addresses. It's relatively easy to make a few accounts with [MetaMask](https://metamask.io/). If you've set up your accounts correctly, the DApp should automatically request to connect to your accounts, and you will see your current address displayed on the site.
 
-To run the DApp locally, open your terminal to the `hash-auction` folder and run
+To run the DApp locally, clone this repository:
+
+```bash
+git clone https://github.com/zvdv/VKURA-2024.git
+```
+
+Then, navigate to the `hash-auction` folder:
+
+```bash
+cd hash-auction
+```
+
+Next, run
 
 ```bash
 npm install
@@ -33,7 +45,7 @@ For a development version of the DApp (real time changes as you change code), ru
 npm run dev
 ```
 
-For an optimised production version, run
+Or, for an optimised production version, run
 
 ```bash
 npm run build
