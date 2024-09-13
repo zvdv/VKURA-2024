@@ -25,12 +25,12 @@ const contractToDeploy = new web3.eth.Contract(abi);
 contractToDeploy.defaultChain = "sepolia";
 contractToDeploy.options.data = "0x" + bytecode;
 contractToDeploy.handleRevert = true;
-export {contractToDeploy};
+export { contractToDeploy };
 
-const contractAddress = '0xa8d32ec71dc2bde11c3f9a58cc2be75a07462765'; //Most recent Sepolia deployed version
-const auctionContract = new web3.eth.Contract(abi, contractAddress);
-// const fairFee = auctionContract.methods.fairFee().call();
-export { auctionContract };
+// const contractAddress = '0xa8d32ec71dc2bde11c3f9a58cc2be75a07462765'; //Most recent Sepolia deployed version
+// const auctionContract = new web3.eth.Contract(abi, contractAddress);
+// // const fairFee = auctionContract.methods.fairFee().call();
+// export { auctionContract };
 
 export default function Setup() {
     const [address, setAddress] = useState('0x0000000000000000000000000000000000000000');
@@ -41,18 +41,29 @@ export default function Setup() {
         setIsClient(true);
     }, []);
 
+    function bidder_has_bid(addr) {
+        for (let i = 0; i < bidders.length; i++) {
+            if (bidders[i].address = addr) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     return (
         <div>
             {isClient ? <Account address={address} setAddress={setAddress} /> : <div className='my-4 p-2 w-fit border-2 border-turquoise-deep rounded-lg'><p>Loading account...</p></div>}
             <Contract contract={contract} setContract={setContract} />
             <Deployer address={address} contract={contract} setContract={setContract} />
-            {/* {contract == '0x0000000000000000000000000000000000000000' ?
-            <></> :
-            <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
-            } */}
-            <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
-            <Reveal address={address} contract={contract} />
+            {contract == '0x0000000000000000000000000000000000000000' ?
+                <Deployer address={address} contract={contract} setContract={setContract} /> :
+                <></>
+            }
+            {bidder_has_bid(address) ?
+            <Reveal address={address} contract={contract} /> :
+            <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />}
             <ClaimWinner address={address} contract={contract} />
+            {/* On claimed winner event show withdraw and end auction */}
             <Withdraw address={address} contract={contract} />
             <EndAuction address={address} contract={contract} />
             <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />

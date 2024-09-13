@@ -57,11 +57,9 @@ export default function Hasher(props) {
                 <label htmlFor='value'>Value (wei): </label>
                 <input type='number' id='value' name='value' min={0} required />
                 <br />
-                {/* <input type='hidden' id='address' name='address' value={address} pattern='0x[A-Za-z0-9]{40}' required /> doesn't stop bid being submitted with empty address */}
+                {/* something to prevent getting submitted with an empty address */}
                 <input type='submit' value='Bid' />
             </form>
         </div>
     )
 }
-
-// <button onClick={result = hash(document.getElementById("bid").value)}>Hash bid with nonce</button>

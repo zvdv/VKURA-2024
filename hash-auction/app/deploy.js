@@ -2,14 +2,12 @@
 
 import React, {useEffect} from 'react';
 import Web3 from 'web3';
-//import web3 from './setweb3';
 import { useSessionStorage } from 'usehooks-ts';
 import { contractToDeploy } from './setweb3';
 
 const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 web3.eth.handleRevert = true;
 web3.handleRevert = true;
-// for some reason, web3.eth is undefined if I use the web3 that I import from setweb3, but it is defined when I make a new web3
 
 export default function Deployer(props) {
     const { address, contract, setContract } = props;
@@ -37,21 +35,21 @@ export default function Deployer(props) {
         const data = deployer.encodeABI();
         
         try {
-            tx = "0xb117d834cc860898c606541a2db6616d0265e90f78fb1029810f1b2da9d84961";
-            // tx = await window.ethereum.request({
-            //     "method": "eth_sendTransaction",
-            //     "params": [
-            //         {
-            //             // No "to" because contract creation
-            //             "from": address,
-            //             "gas": gashex,
-            //             "value": valuehex,
-            //             "data": data,
-            //             // "gasPrice": gasPricehex
-            //         }
-            //     ]
-            // });
-            // document.getElementById('reply').innerHTML = "Successfully deployed at hash " + tx;
+            //tx = "0xb117d834cc860898c606541a2db6616d0265e90f78fb1029810f1b2da9d84961";
+            tx = await window.ethereum.request({
+                "method": "eth_sendTransaction",
+                "params": [
+                    {
+                        // No "to" because contract creation
+                        "from": address,
+                        "gas": gashex,
+                        "value": valuehex,
+                        "data": data,
+                        // "gasPrice": gasPricehex
+                    }
+                ]
+            });
+            document.getElementById('reply').innerHTML = "Successfully deployed at hash " + tx;
             const contractAddress = (await web3.eth.getTransactionReceipt(tx)).contractAddress;
             setContract(contractAddress);
         } catch (error) {
