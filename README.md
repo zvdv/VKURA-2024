@@ -53,3 +53,11 @@ npm run start
 ```
 
 It will display a localhost link where you can see it up and running and try things out! If you want proof that this is really interacting with a real-life blockchain, head to the [Sepolia Block Explorer](https://sepolia.etherscan.io/), and search up your deployed contract's address, or that of accounts you've bid with, and you'll be able to see the transactions appear as they're confirmed on the network.
+
+## Future Goals
+
+There are a variety of ways I could improve this project, including
+
+- Support for a wider variety of wallet software and networks
+- More communication between the Solidity smart contract and the React frontend (for example by using events)
+- Refactoring for a more logical app structure (this is one of my first React/NextJS projects)
