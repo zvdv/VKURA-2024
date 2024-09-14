@@ -4,13 +4,14 @@ import React, {useEffect} from 'react';
 import Web3 from 'web3';
 import { useSessionStorage } from 'usehooks-ts';
 import { contractToDeploy } from './setweb3';
+//import abi from '../../artifacts/auction_abi.json';
 
 const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 web3.eth.handleRevert = true;
 web3.handleRevert = true;
 
 export default function Deployer(props) {
-    const { address, contract, setContract } = props;
+    const { address, contract, setContract/*, setContractInstance*/ } = props;
 
     async function deployContract(formData) {
         const fairFee = +formData.get('fairFee');
@@ -52,6 +53,8 @@ export default function Deployer(props) {
             document.getElementById('reply').innerHTML = "Successfully deployed at hash " + tx;
             const contractAddress = (await web3.eth.getTransactionReceipt(tx)).contractAddress;
             setContract(contractAddress);
+            // const contractInstance = new web3.eth.Contract(abi, contractAddress);
+            // setContractInstance(contractInstance);
         } catch (error) {
             console.error("Error deploying: " + error);
             document.getElementById('error').innerHTML = "Error:" + error;

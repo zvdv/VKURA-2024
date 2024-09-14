@@ -61,3 +61,4 @@ There are a variety of ways I could improve this project, including
 - Support for a wider variety of wallet software and networks
 - More communication between the Solidity smart contract and the React frontend (for example by using events)
 - Refactoring for a more logical app structure (this is one of my first React/NextJS projects)
+- Allow users to enter values in ETH instead of wei

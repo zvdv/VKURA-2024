@@ -15,6 +15,7 @@ import Reveal from './reveal';
 import ClaimWinner from './claimwinner';
 import Withdraw from './withdraw';
 import EndAuction from './endauction';
+//import WinnerListen from './winnerlisten';
 
 const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 web3.eth.handleRevert = true;
@@ -34,17 +35,30 @@ export { contractToDeploy };
 
 export default function Setup() {
     const [address, setAddress] = useState('0x0000000000000000000000000000000000000000');
-    const [contract, setContract] = useState('0x0000000000000000000000000000000000000000'); // Set this back to default when done testing!
+    const [contract, setContract] = useState('0xB17E416DB98764Ebb5Fa35fF25E9396776dd732a'); // Set this back to default when done testing!
     const [bidders, setBidders] = useState([]);
     const [isClient, setIsClient] = useState(false);
+    const [contractInstance, setContractInstance] = useState();
     useEffect(() => {
         setIsClient(true);
     }, []);
 
     function bidder_has_bid(addr) {
         for (let i = 0; i < bidders.length; i++) {
-            if (bidders[i].address = addr) {
+            if (bidders[i].address == addr) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    function bidder_has_revealed(addr){
+        for (let i = 0; i < bidders.length; i++) {
+            if (bidders[i].address == addr) {
+                if (bidders[i].revealed == true){
+                    return true;
+                }
+                return false;
             }
         }
         return false;
@@ -54,11 +68,13 @@ export default function Setup() {
         <div>
             {isClient ? <Account address={address} setAddress={setAddress} /> : <div className='my-4 p-2 w-fit border-2 border-turquoise-deep rounded-lg'><p>Loading account...</p></div>}
             <Contract contract={contract} setContract={setContract} />
-            <Deployer address={address} contract={contract} setContract={setContract} />
+            <Deployer address={address} contract={contract} setContract={setContract} setContractInstance={setContractInstance} />
             {contract != '0x0000000000000000000000000000000000000000' ?
                 bidder_has_bid(address) ?
                     bidder_has_revealed(address) ?
-                        <ClaimWinner address={address} contract={contract} />
+                        <></>
+                        // <WinnerListen contractInstance={contractInstance} />
+                        // Either shows claim winner button or withdraw and end auciton buttons
                         :
                         <Reveal address={address} contract={contract} bidders={bidders} />
                     :
@@ -67,6 +83,7 @@ export default function Setup() {
                 <></>
             }
             {/* On claimed winner event show withdraw and end auction */}
+            <ClaimWinner address={address} contract={contract} />
             <Withdraw address={address} contract={contract} />
             <EndAuction address={address} contract={contract} />
             <Bidders key={bidders} bidders={bidders} setBidders={setBidders} />

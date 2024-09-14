@@ -1,7 +1,5 @@
 'use client'
 
-import { useState, useEffect } from "react";
-
 class Bidder {
     constructor(address, bid, nonce, hash) {
         this.address = address;
