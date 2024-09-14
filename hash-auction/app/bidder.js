@@ -8,6 +8,7 @@ class Bidder {
         this.bid = bid;
         this.nonce = nonce;
         this.hash = hash;
+        this.revealed = false;
     }
 }
 

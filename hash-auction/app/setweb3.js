@@ -34,7 +34,7 @@ export { contractToDeploy };
 
 export default function Setup() {
     const [address, setAddress] = useState('0x0000000000000000000000000000000000000000');
-    const [contract, setContract] = useState('0x54AdC603e19517b31bF9DE17C18A9431b586EEf3'); // Set this back to default when done testing!
+    const [contract, setContract] = useState('0x0000000000000000000000000000000000000000'); // Set this back to default when done testing!
     const [bidders, setBidders] = useState([]);
     const [isClient, setIsClient] = useState(false);
     useEffect(() => {
@@ -55,14 +55,17 @@ export default function Setup() {
             {isClient ? <Account address={address} setAddress={setAddress} /> : <div className='my-4 p-2 w-fit border-2 border-turquoise-deep rounded-lg'><p>Loading account...</p></div>}
             <Contract contract={contract} setContract={setContract} />
             <Deployer address={address} contract={contract} setContract={setContract} />
-            {contract == '0x0000000000000000000000000000000000000000' ?
-                <Deployer address={address} contract={contract} setContract={setContract} /> :
+            {contract != '0x0000000000000000000000000000000000000000' ?
+                bidder_has_bid(address) ?
+                    bidder_has_revealed(address) ?
+                        <ClaimWinner address={address} contract={contract} />
+                        :
+                        <Reveal address={address} contract={contract} bidders={bidders} />
+                    :
+                    <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />
+                :
                 <></>
             }
-            {bidder_has_bid(address) ?
-            <Reveal address={address} contract={contract} /> :
-            <Hasher address={address} contract={contract} bidders={bidders} setBidders={setBidders} />}
-            <ClaimWinner address={address} contract={contract} />
             {/* On claimed winner event show withdraw and end auction */}
             <Withdraw address={address} contract={contract} />
             <EndAuction address={address} contract={contract} />
