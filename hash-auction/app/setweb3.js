@@ -15,6 +15,7 @@ import Reveal from './reveal';
 import ClaimWinner from './claimwinner';
 import Withdraw from './withdraw';
 import EndAuction from './endauction';
+//import WinnerListen from './winnerlisten';
 
 const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 web3.eth.handleRevert = true;
@@ -37,6 +38,7 @@ export default function Setup() {
     const [contract, setContract] = useState('0x0000000000000000000000000000000000000000');
     const [bidders, setBidders] = useState([]);
     const [isClient, setIsClient] = useState(false);
+    const [contractInstance, setContractInstance] = useState();
     useEffect(() => {
         setIsClient(true);
     }, []);

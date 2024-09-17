@@ -8,6 +8,7 @@ export default function ClaimWinner(props) {
         const data = contractToDeploy.methods.claimWinner().encodeABI();
         const gas = 200000;
         const gashex = "0x" + gas.toString(16);
+        let tx;
         try {
             tx = await window.ethereum.request({
                 "method": "eth_sendTransaction",

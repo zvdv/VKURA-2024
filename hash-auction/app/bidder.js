@@ -1,13 +1,12 @@
 'use client'
 
-import { useState, useEffect } from "react";
-
 class Bidder {
     constructor(address, bid, nonce, hash) {
         this.address = address;
         this.bid = bid;
         this.nonce = nonce;
         this.hash = hash;
+        this.revealed = false;
     }
 }
 
