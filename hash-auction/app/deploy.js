@@ -13,6 +13,15 @@ web3.handleRevert = true;
 export default function Deployer(props) {
     const { address, contract, setContract/*, setContractInstance*/ } = props;
 
+    async function getContractAddress(tx, contractAddress) {
+        console.log("Getting contract addess...");
+        // console.log("Receipt: " + web3.eth.getTransactionReceipt(tx));
+        // console.log("Contract Address (1): " + web3.eth.getTransactionReceipt(tx).contractAddress);
+        contractAddress = (await web3.eth.getTransactionReceipt(tx)).contractAddress;
+        console.log("Contract address: " + contractAddress);
+        setContract(contractAddress);
+    }
+
     async function deployContract(formData) {
         const fairFee = +formData.get('fairFee');
         const bidPeriod = +formData.get('bidPeriod');
@@ -32,6 +41,7 @@ export default function Deployer(props) {
 
         console.log(address);
         let tx;
+        let contractAddress;
 
         const data = deployer.encodeABI();
         
@@ -46,19 +56,19 @@ export default function Deployer(props) {
                         "gas": gashex,
                         "value": valuehex,
                         "data": data,
-                        // "gasPrice": gasPricehex
                     }
                 ]
             });
-            document.getElementById('reply').innerHTML = "Successfully deployed at hash " + tx;
-            const contractAddress = (await web3.eth.getTransactionReceipt(tx)).contractAddress;
-            setContract(contractAddress);
-            // const contractInstance = new web3.eth.Contract(abi, contractAddress);
-            // setContractInstance(contractInstance);
+            console.log("tx: " + tx);
+            document.getElementById('reply').innerHTML = "Successfully deployed. Loading address...";
+            setTimeout(getContractAddress,20000,tx,contractAddress);
+            //const contractAddress = (await web3.eth.getTransactionReceipt(tx)).contractAddress;
+            //setContract(contractAddress);
         } catch (error) {
             console.error("Error deploying: " + error);
-            document.getElementById('error').innerHTML = "Error:" + error;
+            //document.getElementById('error').innerHTML = "Error:" + error;
         }
+        console.log("Past try catch");
     }
 
     if (contract != "0x0000000000000000000000000000000000000000"){
