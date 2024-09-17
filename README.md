@@ -62,3 +62,4 @@ There are a variety of ways I could improve this project, including
 - More communication between the Solidity smart contract and the React frontend (for example by using events)
 - Refactoring for a more logical app structure (this is one of my first React/NextJS projects)
 - Allow users to enter values in ETH instead of wei
+- Show and hide forms on the website with the flow of the auction (started in app flow)
