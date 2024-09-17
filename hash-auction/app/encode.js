@@ -20,7 +20,6 @@ export default function Hasher(props) {
         const encoded = web3.eth.abi.encodeParameters(['uint', 'uint'], [bid, nonce]);
         const hashed = web3.utils.soliditySha3(encoded);
 
-        setBidders([...bidders, new Bidder(address, bid, nonce, hashed)]);
         // Call contract to commit to hash
         const data = contractToDeploy.methods.bid(hashed).encodeABI(); //send({from: address, value: formData.get('value')});
         const gas = 200000;
@@ -44,6 +43,7 @@ export default function Hasher(props) {
         } catch (error) {
             console.error(error);
         }
+        setBidders([...bidders, new Bidder(address, bid, nonce, hashed)]);
     }
 
     return (

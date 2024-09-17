@@ -7,7 +7,7 @@ import { contractToDeploy } from './setweb3';
 const web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider('https://rpc.sepolia.org'));
 
 export default function Reveal(props){
-    const { address, contract } = props;
+    const { address, contract, bidders } = props;
 
     async function reveal(formData){
         const bid = +formData.get('bid');
@@ -32,6 +32,13 @@ export default function Reveal(props){
         } catch (error) {
             console.error(error);
         }
+        for (let i = 0; i < bidders.length; i++) {
+            if (bidders[i].address = address) {
+                bidders[i].revealed = true;
+                break;
+            }
+        }
+        
     }
 
     return(
