@@ -34,7 +34,7 @@ export { contractToDeploy };
 
 export default function Setup() {
     const [address, setAddress] = useState('0x0000000000000000000000000000000000000000');
-    const [contract, setContract] = useState('0x54AdC603e19517b31bF9DE17C18A9431b586EEf3'); // Set this back to default when done testing!
+    const [contract, setContract] = useState('0x0000000000000000000000000000000000000000'); // Set this back to default when done testing!
     const [bidders, setBidders] = useState([]);
     const [isClient, setIsClient] = useState(false);
     useEffect(() => {
@@ -54,7 +54,6 @@ export default function Setup() {
         <div>
             {isClient ? <Account address={address} setAddress={setAddress} /> : <div className='my-4 p-2 w-fit border-2 border-turquoise-deep rounded-lg'><p>Loading account...</p></div>}
             <Contract contract={contract} setContract={setContract} />
-            <Deployer address={address} contract={contract} setContract={setContract} />
             {contract == '0x0000000000000000000000000000000000000000' ?
                 <Deployer address={address} contract={contract} setContract={setContract} /> :
                 <></>

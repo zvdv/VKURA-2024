@@ -45,16 +45,40 @@ export default function Deployer(props) {
                         "gas": gashex,
                         "value": valuehex,
                         "data": data,
-                        // "gasPrice": gasPricehex
                     }
                 ]
             });
-            document.getElementById('reply').innerHTML = "Successfully deployed at hash " + tx;
-            const contractAddress = (await web3.eth.getTransactionReceipt(tx)).contractAddress;
-            setContract(contractAddress);
+            console.log("Made tx");
+            console.log("tx: " + tx);
+            //document.getElementById('reply').innerHTML = "Successfully deployed at hash " + tx;
+            //const gettx = await web3.eth.getTransaction(tx)
+            //console.log("getTransaction: " + gettx);
+            console.log("Contract (1): " + contract);
+            setContract("Loading...");
+            console.log("Contract (2): " + contract);
+            // Transaction hash is there, but maybe is trying to get new contract address before it's been assigned?
+            //let contractAddress;
+            // setTimeout(() => {
+            //     console.log("Receipt: " + web3.eth.getTransactionReceipt(tx));
+            //     console.log("Contract Address (1): " + web3.eth.getTransactionReceipt(tx).contractAddress);
+            //     contractAddress = web3.eth.getTransactionReceipt(tx).contractAddress;
+            //   },10000);
+            
+            console.log("Made it");
         } catch (error) {
             console.error("Error deploying: " + error);
-            document.getElementById('error').innerHTML = "Error:" + error;
+            //document.getElementById('error').innerHTML = "Error:" + error;
+        } finally {
+            console.log("Finally");
+            console.log("tx: " + tx);
+            while ((await web3.eth.getTransactionReceipt(tx)).contractAddress == undefined){
+                console.log("Waiting...");
+                continue;
+            }
+            const contractAddress = (await web3.eth.getTransactionReceipt(tx)).contractAddress;
+            console.log("Contract address (2): " + contractAddress);
+            setContract(contractAddress);
+            console.log("Contract (3): " + contract);
         }
     }
 
